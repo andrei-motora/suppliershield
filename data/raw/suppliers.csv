@@ -1,0 +1,121 @@
+id,name,tier,component,country,country_code,region,contract_value_eur_m,lead_time_days,financial_health,past_disruptions,has_backup
+S001,Japan Global Systems,3,Silicon Wafer,Japan,JP,Asia-Pacific,0.34,49,81,1,False
+S002,India Precision Manufacturing,3,Plastic Resin,India,IN,Asia-Pacific,0.29,48,41,4,False
+S003,China Superior Industries,3,Silicon Wafer,China,CN,Asia-Pacific,0.32,44,71,1,False
+S004,Netherlands Global Industries,3,Lithium Compound,Netherlands,NL,Europe,1.04,52,65,0,False
+S005,Germany Precision Manufacturing,3,Silicon Wafer,Germany,DE,Europe,0.4,51,94,3,False
+S006,Germany Superior Manufacturing,3,Copper Wire,Germany,DE,Europe,1.17,55,100,1,True
+S007,Vietnam Precision Technologies,3,Lithium Compound,Vietnam,VN,Asia-Pacific,0.8,46,82,3,False
+S008,Germany Global Manufacturing,3,Aluminum Sheet,Germany,DE,Europe,0.63,54,100,1,False
+S009,DR Congo Advanced Systems,3,Lithium Compound,DR Congo,CD,Africa,1.17,58,14,1,True
+S010,United States Precision Systems,3,Rare Earth Elements,United States,US,North America,0.69,59,36,1,False
+S011,DR Congo Global Technologies,3,Silicon Wafer,DR Congo,CD,Africa,0.52,35,16,1,False
+S012,Vietnam Advanced Systems,3,Silicon Wafer,Vietnam,VN,Asia-Pacific,0.41,46,39,2,False
+S013,Thailand Global Technologies,3,Aluminum Sheet,Thailand,TH,Asia-Pacific,1.05,55,73,5,False
+S014,Thailand International Industries,3,Silicon Wafer,Thailand,TH,Asia-Pacific,0.53,52,50,4,False
+S015,United States Superior Systems,3,Aluminum Sheet,United States,US,North America,0.78,44,82,1,False
+S016,United States Global Industries,3,Plastic Resin,United States,US,North America,0.77,59,52,0,False
+S017,India Advanced Industries,3,Plastic Resin,India,IN,Asia-Pacific,0.56,37,24,2,False
+S018,Vietnam Global Technologies,3,Plastic Resin,Vietnam,VN,Asia-Pacific,1.0,49,26,4,True
+S019,Netherlands International Systems,3,Aluminum Sheet,Netherlands,NL,Europe,0.5,46,100,0,False
+S020,China Advanced Systems,3,Rare Earth Elements,China,CN,Asia-Pacific,0.24,41,44,2,True
+S021,Thailand Advanced Industries,3,Plastic Resin,Thailand,TH,Asia-Pacific,0.84,45,39,1,False
+S022,Japan Superior Manufacturing,3,Rare Earth Elements,Japan,JP,Asia-Pacific,0.69,44,100,1,False
+S023,Switzerland International Technologies,3,Rare Earth Elements,Switzerland,CH,Europe,0.86,34,98,0,False
+S024,DR Congo Superior Manufacturing,3,Aluminum Sheet,DR Congo,CD,Africa,1.16,57,2,1,True
+S025,Thailand Global Manufacturing,3,Glass Substrate,Thailand,TH,Asia-Pacific,1.01,38,62,5,False
+S026,Japan Advanced Technologies,3,Copper Wire,Japan,JP,Asia-Pacific,0.95,52,66,2,False
+S027,Germany Global Manufacturing,3,Aluminum Sheet,Germany,DE,Europe,1.16,50,58,0,True
+S028,India Precision Technologies,3,Glass Substrate,India,IN,Asia-Pacific,0.26,46,0,3,True
+S029,United States International Manufacturing,3,Lithium Compound,United States,US,North America,0.35,45,78,2,False
+S030,China Precision Manufacturing,3,Aluminum Sheet,China,CN,Asia-Pacific,0.69,30,25,1,True
+S031,Japan Superior Technologies,3,Aluminum Sheet,Japan,JP,Asia-Pacific,0.64,54,80,1,False
+S032,United States Advanced Manufacturing,3,Lithium Compound,United States,US,North America,1.2,50,77,4,False
+S033,India Superior Technologies,3,Rare Earth Elements,India,IN,Asia-Pacific,0.46,43,79,1,True
+S034,Poland Global Industries,3,Silicon Wafer,Poland,PL,Europe,0.61,53,45,2,False
+S035,Taiwan Precision Technologies,3,Rare Earth Elements,Taiwan,TW,Asia-Pacific,0.89,46,66,4,True
+S036,Japan International Technologies,3,Silicon Wafer,Japan,JP,Asia-Pacific,0.97,45,83,5,True
+S037,China Superior Systems,3,Steel Alloy,China,CN,Asia-Pacific,0.75,32,62,2,False
+S038,Malaysia Global Solutions,3,Copper Wire,Malaysia,MY,Asia-Pacific,0.82,40,99,1,False
+S039,Germany Advanced Industries,3,Aluminum Sheet,Germany,DE,Europe,0.87,35,74,0,True
+S040,Thailand International Manufacturing,3,Aluminum Sheet,Thailand,TH,Asia-Pacific,0.68,50,39,1,False
+S041,United States Global Systems,2,Circuit Board,United States,US,North America,1.43,34,81,2,False
+S042,Taiwan Superior Industries,2,LED Component,Taiwan,TW,Asia-Pacific,1.19,29,66,3,False
+S043,South Korea Superior Solutions,2,Resistor Network,South Korea,KR,Asia-Pacific,1.21,39,37,0,True
+S044,China Precision Systems,2,Connector Set,China,CN,Asia-Pacific,1.3,39,66,2,True
+S045,China Superior Solutions,2,LED Component,China,CN,Asia-Pacific,1.52,24,60,1,True
+S046,Switzerland Superior Systems,2,Semiconductor Chip,Switzerland,CH,Europe,1.87,21,76,0,True
+S047,Switzerland Global Industries,2,Circuit Board,Switzerland,CH,Europe,2.37,39,84,1,True
+S048,China Advanced Manufacturing,2,Microcontroller,China,CN,Asia-Pacific,2.32,26,30,2,False
+S049,DR Congo Precision Solutions,2,Semiconductor Chip,DR Congo,CD,Africa,0.96,30,0,2,False
+S050,Germany Global Technologies,2,Capacitor Array,Germany,DE,Europe,0.57,31,69,2,False
+S051,Malaysia Superior Manufacturing,2,Capacitor Array,Malaysia,MY,Asia-Pacific,1.78,33,32,1,False
+S052,Netherlands International Solutions,2,LED Component,Netherlands,NL,Europe,0.7,38,95,1,False
+S053,Taiwan Advanced Solutions,2,LED Component,Taiwan,TW,Asia-Pacific,0.97,23,68,1,True
+S054,Poland Precision Solutions,2,Memory Module,Poland,PL,Europe,1.57,38,67,0,False
+S055,DR Congo Advanced Technologies,2,Connector Set,DR Congo,CD,Africa,2.06,25,1,3,False
+S056,Germany International Solutions,2,Microcontroller,Germany,DE,Europe,1.44,31,71,0,False
+S057,Japan Global Manufacturing,2,Circuit Board,Japan,JP,Asia-Pacific,2.39,27,96,1,True
+S058,Vietnam Global Systems,2,Connector Set,Vietnam,VN,Asia-Pacific,2.1,23,23,2,True
+S059,Japan Superior Solutions,2,Semiconductor Chip,Japan,JP,Asia-Pacific,1.97,36,100,4,True
+S060,China Superior Manufacturing,2,Connector Set,China,CN,Asia-Pacific,0.78,37,74,3,True
+S061,Switzerland Global Industries,2,Semiconductor Chip,Switzerland,CH,Europe,2.3,33,100,0,False
+S062,Malaysia Global Industries,2,Connector Set,Malaysia,MY,Asia-Pacific,1.03,25,75,2,False
+S063,Thailand Global Solutions,2,Microcontroller,Thailand,TH,Asia-Pacific,2.04,21,50,6,False
+S064,United States Advanced Technologies,2,Connector Set,United States,US,North America,1.75,29,94,1,False
+S065,China Superior Manufacturing,2,Connector Set,China,CN,Asia-Pacific,0.51,22,74,4,False
+S066,United States Precision Technologies,2,Circuit Board,United States,US,North America,2.48,38,58,0,False
+S067,Thailand Precision Industries,2,Memory Module,Thailand,TH,Asia-Pacific,2.35,39,54,4,False
+S068,Thailand International Systems,2,Capacitor Array,Thailand,TH,Asia-Pacific,1.14,32,68,3,False
+S069,Japan International Technologies,2,Memory Module,Japan,JP,Asia-Pacific,1.46,31,66,1,False
+S070,South Korea Global Industries,2,Semiconductor Chip,South Korea,KR,Asia-Pacific,2.48,28,34,2,False
+S071,Taiwan Advanced Industries,2,Memory Module,Taiwan,TW,Asia-Pacific,2.48,24,63,2,True
+S072,Taiwan Precision Manufacturing,2,Connector Set,Taiwan,TW,Asia-Pacific,2.49,23,69,3,False
+S073,Switzerland Precision Technologies,2,Circuit Board,Switzerland,CH,Europe,0.76,37,100,0,True
+S074,United States Advanced Technologies,2,LED Component,United States,US,North America,2.2,29,91,3,False
+S075,Germany Global Technologies,2,Connector Set,Germany,DE,Europe,2.17,33,100,1,False
+S076,Switzerland Global Solutions,2,Capacitor Array,Switzerland,CH,Europe,1.51,20,100,0,False
+S077,Switzerland Global Manufacturing,2,Semiconductor Chip,Switzerland,CH,Europe,1.36,36,71,1,True
+S078,Netherlands International Technologies,2,LED Component,Netherlands,NL,Europe,0.59,37,82,3,False
+S079,Thailand Precision Technologies,2,Circuit Board,Thailand,TH,Asia-Pacific,2.39,22,56,4,True
+S080,Germany Precision Technologies,2,Semiconductor Chip,Germany,DE,Europe,1.12,26,100,1,True
+S081,Japan International Systems,1,Assembled PCB Module,Japan,JP,Asia-Pacific,1.56,21,90,3,False
+S082,Japan Advanced Technologies,1,Housing & Enclosure,Japan,JP,Asia-Pacific,3.02,24,74,1,False
+S083,DR Congo Precision Manufacturing,1,Housing & Enclosure,DR Congo,CD,Africa,1.86,18,14,1,False
+S084,Taiwan Precision Industries,1,Battery Pack,Taiwan,TW,Asia-Pacific,2.63,24,52,3,False
+S085,DR Congo Advanced Industries,1,Assembled PCB Module,DR Congo,CD,Africa,4.31,15,17,3,False
+S086,Thailand Superior Technologies,1,Assembled PCB Module,Thailand,TH,Asia-Pacific,3.02,10,74,1,False
+S087,Taiwan Global Solutions,1,Power Supply Unit,Taiwan,TW,Asia-Pacific,4.86,16,67,4,False
+S088,China Precision Industries,1,Final Electronics Assembly,China,CN,Asia-Pacific,2.76,15,75,2,False
+S089,Switzerland Precision Technologies,1,Final Electronics Assembly,Switzerland,CH,Europe,2.92,18,100,0,False
+S090,South Korea Superior Manufacturing,1,Final Electronics Assembly,South Korea,KR,Asia-Pacific,3.09,13,82,0,True
+S091,Vietnam Superior Industries,1,Assembled PCB Module,Vietnam,VN,Asia-Pacific,2.83,19,60,4,False
+S092,South Korea Superior Solutions,1,Control Unit,South Korea,KR,Asia-Pacific,1.81,11,21,3,False
+S093,China Advanced Manufacturing,1,Sensor Module,China,CN,Asia-Pacific,1.94,11,40,0,False
+S094,United States Precision Systems,1,Sensor Module,United States,US,North America,2.35,22,80,2,False
+S095,Thailand Precision Systems,1,Control Unit,Thailand,TH,Asia-Pacific,1.67,24,75,5,False
+S096,Switzerland Advanced Industries,1,Housing & Enclosure,Switzerland,CH,Europe,2.78,15,89,0,False
+S097,DR Congo International Solutions,1,Assembled PCB Module,DR Congo,CD,Africa,2.83,22,0,0,False
+S098,United States Global Solutions,1,Final Electronics Assembly,United States,US,North America,4.38,16,100,1,False
+S099,Thailand Superior Systems,1,Display Panel Assembly,Thailand,TH,Asia-Pacific,3.85,23,100,0,False
+S100,Vietnam Advanced Industries,1,Power Supply Unit,Vietnam,VN,Asia-Pacific,1.87,18,69,2,False
+S101,Malaysia Advanced Systems,1,Display Panel Assembly,Malaysia,MY,Asia-Pacific,3.76,12,79,2,False
+S102,Vietnam International Solutions,1,Power Supply Unit,Vietnam,VN,Asia-Pacific,2.04,13,44,3,False
+S103,DR Congo Superior Solutions,1,Battery Pack,DR Congo,CD,Africa,2.46,18,2,2,False
+S104,Germany Superior Systems,1,Assembled PCB Module,Germany,DE,Europe,2.63,13,100,0,True
+S105,United States Precision Systems,1,Final Electronics Assembly,United States,US,North America,2.17,10,40,2,False
+S106,Vietnam Global Solutions,1,Final Electronics Assembly,Vietnam,VN,Asia-Pacific,2.84,11,23,1,False
+S107,South Korea Advanced Systems,1,Power Supply Unit,South Korea,KR,Asia-Pacific,3.98,10,43,1,False
+S108,DR Congo Advanced Manufacturing,1,Display Panel Assembly,DR Congo,CD,Africa,4.97,22,0,2,False
+S109,India Superior Technologies,1,Battery Pack,India,IN,Asia-Pacific,3.93,15,46,2,False
+S110,South Korea Global Industries,1,Battery Pack,South Korea,KR,Asia-Pacific,3.17,17,68,1,False
+S111,Thailand Advanced Industries,1,Control Unit,Thailand,TH,Asia-Pacific,3.11,10,43,1,True
+S112,Malaysia Advanced Manufacturing,1,Assembled PCB Module,Malaysia,MY,Asia-Pacific,4.04,21,56,2,False
+S113,United States Precision Technologies,1,Battery Pack,United States,US,North America,3.54,20,79,2,True
+S114,Germany Superior Industries,1,Control Unit,Germany,DE,Europe,3.21,12,61,0,False
+S115,India Global Manufacturing,1,Final Electronics Assembly,India,IN,Asia-Pacific,2.6,20,13,1,False
+S116,DR Congo Advanced Solutions,1,Assembled PCB Module,DR Congo,CD,Africa,4.59,11,6,2,True
+S117,United States International Manufacturing,1,Power Supply Unit,United States,US,North America,2.54,15,83,0,True
+S118,Malaysia Advanced Systems,1,Assembled PCB Module,Malaysia,MY,Asia-Pacific,2.22,11,88,4,False
+S119,China Advanced Manufacturing,1,Assembled PCB Module,China,CN,Asia-Pacific,2.68,23,43,1,False
+S120,DR Congo Global Systems,1,Display Panel Assembly,DR Congo,CD,Africa,4.58,13,0,2,False

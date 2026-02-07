@@ -1,0 +1,11 @@
+product_id,product_name,annual_revenue_eur_m,component_supplier_ids
+P001,SmartSensor Pro X1,2.8,"S085,S112,S105"
+P002,Industrial Controller Z400,7.15,"S117,S100,S094,S105,S090,S095"
+P003,DataLogger Elite,2.29,"S099,S105,S088"
+P004,Precision Monitor DX,8.22,"S100,S082,S081,S120"
+P005,AutomationHub 5000,5.36,"S101,S113,S100,S109,S117,S118,S083"
+P006,FlexDisplay Module,4.3,"S094,S115,S081,S084"
+P007,PowerCore System,7.33,"S112,S090,S084,S089,S081,S094,S104,S111"
+P008,ConnectNode Gateway,6.62,"S097,S119,S094,S083,S081"
+P009,EdgeProcessor Unit,7.45,"S115,S111,S090"
+P010,SecureComm Platform,5.32,"S110,S107,S082,S120"

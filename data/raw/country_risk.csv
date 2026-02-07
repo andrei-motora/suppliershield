@@ -1,0 +1,15 @@
+country,country_code,political_stability,natural_disaster_freq,logistics_performance,trade_restriction_risk
+China,CN,45,55,75,40
+Germany,DE,15,20,90,10
+Malaysia,MY,35,65,70,25
+Taiwan,TW,40,75,85,45
+Netherlands,NL,10,15,95,5
+Vietnam,VN,50,70,60,30
+Poland,PL,25,30,80,15
+Thailand,TH,45,80,65,35
+United States,US,30,50,95,20
+Japan,JP,20,85,90,15
+South Korea,KR,35,70,85,25
+Switzerland,CH,5,10,95,5
+India,IN,55,75,55,40
+DR Congo,CD,85,60,25,75
