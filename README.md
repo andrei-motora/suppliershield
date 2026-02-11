@@ -13,7 +13,6 @@
 ## 📸 Screenshot
 
 ![Dashboard](docs/images/dashboard_overview.png)
-*Dashboard screenshot coming soon.*
 
 ---
 
