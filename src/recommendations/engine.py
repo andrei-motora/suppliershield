@@ -117,7 +117,7 @@ class RecommendationEngine:
             )
         )
         
-        print(f"✓ Generated {len(recommendations)} recommendations\n")
+        print(f"[OK] Generated {len(recommendations)} recommendations\n")
         
         return recommendations
     
@@ -317,7 +317,7 @@ class RecommendationEngine:
             if severity not in by_severity:
                 continue
             
-            emoji = {'CRITICAL': '🔴', 'HIGH': '🟠', 'MEDIUM': '🟡', 'WATCH': '⚪'}
+            emoji = {'CRITICAL': '[!!]', 'HIGH': '[!]', 'MEDIUM': '[~]', 'WATCH': '[.]'}
             print(f"\n{emoji[severity]} {severity} PRIORITY ({by_severity[severity][0]['timeline']})")
             print("-" * 60)
             

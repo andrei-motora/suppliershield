@@ -68,7 +68,7 @@ class SPOFDetector:
                         'reason': spof_reason
                     })
         
-        print(f"✓ Analysis complete")
+        print(f"[OK] Analysis complete")
         
         # Add SPOF flag to graph nodes
         self._add_spof_flags_to_graph()
@@ -153,7 +153,7 @@ class SPOFDetector:
             is_spof = node_id in self.spofs
             self.graph.nodes[node_id]['is_spof'] = is_spof
         
-        print("✓ SPOF flags added to graph")
+        print("[OK] SPOF flags added to graph")
     
     def _print_spof_summary(self, spof_details: List[Dict]) -> None:
         """Print summary of detected SPOFs."""

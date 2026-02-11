@@ -63,7 +63,7 @@ def main():
         print(f"   Tier: {node['tier']} | Country: {node['country']}")
         print(f"   Composite Risk: {composite:.1f}")
         print(f"   Propagated Risk: {propagated:.1f}")
-        print(f"   ⬆️  Increase: +{increase:.1f} points")
+        print(f"   [^] Increase: +{increase:.1f} points")
         
         # Show what it depends on
         upstream = list(graph.predecessors(supplier_id))
@@ -83,7 +83,7 @@ def main():
     hidden_vulns = propagator.analyze_hidden_vulnerabilities()
     
     print(f"\nSuppliers that LOOK safe but have HIDDEN risk:")
-    print(f"(Composite < 55 but Propagated ≥ 55)")
+    print(f"(Composite < 55 but Propagated >= 55)")
     print(f"\nFound: {hidden_vulns['count']} hidden vulnerabilities\n")
     
     if hidden_vulns['count'] > 0:
@@ -116,7 +116,7 @@ def main():
             print(f"  Composite Risk: {step['composite_risk']:.1f}")
             print(f"  Propagated Risk: {step['propagated_risk']:.1f}")
             if step['propagated_risk'] > step['composite_risk']:
-                print(f"  ⚠️  Risk increased by {step['propagated_risk'] - step['composite_risk']:.1f} points")
+                print(f"  [!] Risk increased by {step['propagated_risk'] - step['composite_risk']:.1f} points")
     
     # Compare composite vs propagated across all tiers
     print("\n" + "="*60)
@@ -158,7 +158,7 @@ def main():
         print(f"  After (propagated): {propagated_risks[example]:.1f}")
         increase = propagated_risks[example] - graph.nodes[example]['risk_composite']
         if increase > 5:
-            print(f"  ⚠️  Significant increase: +{increase:.1f} points")
+            print(f"  [!] Significant increase: +{increase:.1f} points")
     
     print("\nCase 3: Medium composite risk")
     med_risk_suppliers = [n for n in graph.nodes() if 40 < graph.nodes[n]['risk_composite'] < 50]
@@ -169,7 +169,7 @@ def main():
         print(f"  After (propagated): {propagated_risks[example]:.1f}")
     
     print("\n" + "="*60)
-    print("✅ Risk propagation test complete!")
+    print("[OK] Risk propagation test complete!")
     print("="*60 + "\n")
 
 

@@ -407,6 +407,6 @@ class BOMImpactTracer:
         df = df.reset_index(drop=True)
         df.index = df.index + 1
         
-        print("✓ Product risk analysis complete\n")
+        print("[OK] Product risk analysis complete\n")
         
         return df

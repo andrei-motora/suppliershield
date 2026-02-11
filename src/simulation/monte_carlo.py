@@ -10,6 +10,7 @@ import pandas as pd
 import numpy as np
 from typing import Dict, List, Tuple, Set
 import random
+import time
 
 
 class MonteCarloSimulator:
@@ -93,8 +94,9 @@ class MonteCarloSimulator:
         
         print(f"Potentially affected suppliers: {len(affected_suppliers)}")
         print(f"Running {iterations:,} simulations...")
-        
+
         # Run all iterations
+        start_time = time.time()
         results = []
         for i in range(iterations):
             impact = self._run_single_iteration(
@@ -107,17 +109,26 @@ class MonteCarloSimulator:
             if (i + 1) % 1000 == 0:
                 print(f"  Completed {i + 1:,} / {iterations:,} iterations...")
         
-        print(f"✓ Simulation complete\n")
-        
+        elapsed = time.time() - start_time
+        print(f"[OK] Simulation complete\n")
+
         # Calculate statistics
         stats = self._calculate_statistics(results)
-        
+
+        # Find affected products
+        affected_products = [
+            pid for pid, pdata in self.product_supplier_map.items()
+            if set(pdata['suppliers']) & affected_suppliers
+        ]
+
         # Add metadata
         stats['target_supplier'] = target_supplier
         stats['duration_days'] = duration_days
         stats['iterations'] = iterations
         stats['scenario_type'] = scenario_type
         stats['affected_suppliers_count'] = len(affected_suppliers)
+        stats['affected_products'] = affected_products
+        stats['runtime'] = elapsed
         stats['all_results'] = results
         
         # Print summary
@@ -144,7 +155,7 @@ class MonteCarloSimulator:
             try:
                 descendants = nx.descendants(self.graph, target_supplier)
                 affected.update(descendants)
-            except:
+            except Exception:
                 pass
             return affected
         

@@ -49,7 +49,7 @@ class SupplierDataGenerator:
             filepath: Path to country_risk.csv
         """
         self.country_risk = pd.read_csv(filepath)
-        print(f"✓ Loaded {len(self.country_risk)} countries")
+        print(f"[OK] Loaded {len(self.country_risk)} countries")
         
     def generate_suppliers(self, 
                           n_tier1: int = 40,
@@ -106,7 +106,7 @@ class SupplierDataGenerator:
             supplier_id += 1
         
         df = pd.DataFrame(suppliers)
-        print(f"✓ Generated {len(df)} total suppliers")
+        print(f"[OK] Generated {len(df)} total suppliers")
         return df
     
     def _create_supplier(self, supplier_id: int, tier: int, component: str) -> dict:
@@ -230,7 +230,7 @@ class SupplierDataGenerator:
                 })
         
         df = pd.DataFrame(dependencies)
-        print(f"✓ Generated {len(df)} dependency edges")
+        print(f"[OK] Generated {len(df)} dependency edges")
         return df
     
     def generate_product_bom(self, 
@@ -289,7 +289,7 @@ class SupplierDataGenerator:
             })
         
         df = pd.DataFrame(products)
-        print(f"✓ Generated {len(df)} products")
+        print(f"[OK] Generated {len(df)} products")
         return df
     
     def save_all(self, output_dir: Path) -> None:
@@ -318,19 +318,19 @@ class SupplierDataGenerator:
         )
         suppliers_path = output_dir / 'suppliers.csv'
         suppliers_df.to_csv(suppliers_path, index=False)
-        print(f"✓ Saved to {suppliers_path}\n")
+        print(f"[OK] Saved to {suppliers_path}\n")
         
         # Generate dependencies
         dependencies_df = self.generate_dependencies(suppliers_df)
         dependencies_path = output_dir / 'dependencies.csv'
         dependencies_df.to_csv(dependencies_path, index=False)
-        print(f"✓ Saved to {dependencies_path}\n")
+        print(f"[OK] Saved to {dependencies_path}\n")
         
         # Generate product BOMs
         product_bom_df = self.generate_product_bom(suppliers_df, n_products=10)
         bom_path = output_dir / 'product_bom.csv'
         product_bom_df.to_csv(bom_path, index=False)
-        print(f"✓ Saved to {bom_path}\n")
+        print(f"[OK] Saved to {bom_path}\n")
         
         print(f"{'='*60}")
         print("DATA GENERATION COMPLETE!")

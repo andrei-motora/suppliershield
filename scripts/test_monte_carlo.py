@@ -55,7 +55,7 @@ def main():
         seed=42  # For reproducible results
     )
     
-    print("✓ Simulator initialized\n")
+    print("[OK] Simulator initialized\n")
     
     # ================================================================
     # SCENARIO 1: Single high-risk supplier failure
@@ -194,7 +194,7 @@ def main():
     print(f"  • SPOF risk: Qualify backup for S016 immediately")
     
     print("\n" + "="*60)
-    print("✅ Monte Carlo simulation test complete!")
+    print("[OK] Monte Carlo simulation test complete!")
     print("="*60 + "\n")
     
     # Show histogram info

@@ -76,7 +76,7 @@ def main():
     spof_detector = SPOFDetector(graph)
     spofs = spof_detector.detect_all_spofs()
     
-    print(f"\n✓ Phase 2 complete: {len(spofs)} SPOFs detected")
+    print(f"\n[OK] Phase 2 complete: {len(spofs)} SPOFs detected")
     
     # ================================================================
     # PHASE 3 FEATURE 1: Monte Carlo Simulation
@@ -102,7 +102,7 @@ def main():
         scenario_type='single_node'
     )
     
-    print(f"\n✓ Monte Carlo complete: €{mc_result['mean']:.2f}M mean impact")
+    print(f"\n[OK] Monte Carlo complete: €{mc_result['mean']:.2f}M mean impact")
     
     # ================================================================
     # PHASE 3 FEATURE 2: Sensitivity Analysis
@@ -126,7 +126,7 @@ def main():
         print(f"   Criticality: {row['criticality_score']:.2f} | Risk: {row['propagated_risk']:.1f} | Exposure: €{row['total_revenue_exposure']:.2f}M")
     
     pareto = analyzer.get_pareto_analysis()
-    print(f"\n✓ Sensitivity complete: Top {pareto['pareto_50_suppliers']} suppliers = 50% of risk")
+    print(f"\n[OK] Sensitivity complete: Top {pareto['pareto_50_suppliers']} suppliers = 50% of risk")
     
     # ================================================================
     # PHASE 3 FEATURE 3: BOM Impact Tracing
@@ -148,7 +148,7 @@ def main():
     
     bom_impact = tracer.trace_supplier_impact(most_critical_id)
     
-    print(f"\n✓ BOM trace complete: {bom_impact['product_count']} products affected, €{bom_impact['total_revenue_at_risk']:.2f}M at risk")
+    print(f"\n[OK] BOM trace complete: {bom_impact['product_count']} products affected, €{bom_impact['total_revenue_at_risk']:.2f}M at risk")
     
     # Also trace a product's dependencies
     print("\n" + "-"*60)
@@ -237,28 +237,28 @@ def main():
     print("="*60 + "\n")
     
     print("Step 1: IDENTIFY HIGH-RISK SUPPLIERS")
-    print("  → Use risk propagation to find hidden vulnerabilities")
-    print("  → Result: Focus on suppliers with propagated risk ≥ 60")
+    print("  -> Use risk propagation to find hidden vulnerabilities")
+    print("  -> Result: Focus on suppliers with propagated risk >= 60")
     
     print("\nStep 2: QUANTIFY FINANCIAL IMPACT")
-    print("  → Run Monte Carlo simulation on critical suppliers")
-    print("  → Result: Budget €14M contingency for top risks")
+    print("  -> Run Monte Carlo simulation on critical suppliers")
+    print("  -> Result: Budget €14M contingency for top risks")
     
     print("\nStep 3: PRIORITIZE BY CRITICALITY")
-    print("  → Use sensitivity analysis: Risk × Exposure")
-    print(f"  → Result: Focus on top {pareto['pareto_50_suppliers']} suppliers first")
+    print("  -> Use sensitivity analysis: Risk × Exposure")
+    print(f"  -> Result: Focus on top {pareto['pareto_50_suppliers']} suppliers first")
     
     print("\nStep 4: MAP PRODUCT DEPENDENCIES")
-    print("  → Trace BOM to understand product impact")
-    print("  → Result: Know which products are affected by each supplier")
+    print("  -> Trace BOM to understand product impact")
+    print("  -> Result: Know which products are affected by each supplier")
     
     print("\nStep 5: EXECUTE RECOMMENDATIONS")
-    print(f"  → Start with {summary['critical_count']} CRITICAL actions")
-    print("  → Qualify backup suppliers for high-risk components")
-    print("  → Diversify away from concentrated regions")
+    print(f"  -> Start with {summary['critical_count']} CRITICAL actions")
+    print("  -> Qualify backup suppliers for high-risk components")
+    print("  -> Diversify away from concentrated regions")
     
     print("\n" + "="*60)
-    print("✅ PHASE 3 COMPREHENSIVE ANALYSIS COMPLETE!")
+    print("[OK] PHASE 3 COMPREHENSIVE ANALYSIS COMPLETE!")
     print("="*60 + "\n")
     
     print("Portfolio Value:")

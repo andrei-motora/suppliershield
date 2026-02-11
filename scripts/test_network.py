@@ -118,7 +118,7 @@ def main():
         print(f"  • Tier distribution: {metrics['tier_distribution']}")
     
     print("\n" + "="*60)
-    print("✅ Network builder test complete!")
+    print("[OK] Network builder test complete!")
     print("="*60 + "\n")
 
 

@@ -26,7 +26,7 @@ def main():
     # Generate and save all data
     generator.save_all(output_dir)
     
-    print("\n✅ All data files generated successfully!")
+    print("\n[OK] All data files generated successfully!")
     print(f"\nFiles are in: {output_dir}")
     print("\nNext step: Build the network graph!")
 

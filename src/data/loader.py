@@ -40,16 +40,16 @@ class DataValidator:
         print("Loading data files...")
         
         self.suppliers = pd.read_csv(self.data_dir / 'suppliers.csv')
-        print(f"✓ Loaded {len(self.suppliers)} suppliers")
-        
+        print(f"[OK] Loaded {len(self.suppliers)} suppliers")
+
         self.dependencies = pd.read_csv(self.data_dir / 'dependencies.csv')
-        print(f"✓ Loaded {len(self.dependencies)} dependencies")
-        
+        print(f"[OK] Loaded {len(self.dependencies)} dependencies")
+
         self.country_risk = pd.read_csv(self.data_dir / 'country_risk.csv')
-        print(f"✓ Loaded {len(self.country_risk)} countries")
-        
+        print(f"[OK] Loaded {len(self.country_risk)} countries")
+
         self.product_bom = pd.read_csv(self.data_dir / 'product_bom.csv')
-        print(f"✓ Loaded {len(self.product_bom)} products")
+        print(f"[OK] Loaded {len(self.product_bom)} products")
         
         return self.suppliers, self.dependencies, self.country_risk, self.product_bom
     
@@ -88,9 +88,9 @@ class DataValidator:
         
         print("\n" + "="*60)
         if all_valid:
-            print("✅ ALL VALIDATIONS PASSED!")
+            print("[PASS] ALL VALIDATIONS PASSED!")
         else:
-            print("❌ SOME VALIDATIONS FAILED")
+            print("[FAIL] SOME VALIDATIONS FAILED")
         print("="*60 + "\n")
         
         return all_valid
@@ -109,10 +109,10 @@ class DataValidator:
         ]:
             null_count = df.isnull().sum().sum()
             if null_count > 0:
-                print(f"  ❌ {name}.csv has {null_count} missing values")
+                print(f"  [FAIL] {name}.csv has {null_count} missing values")
                 has_nulls = True
             else:
-                print(f"  ✓ {name}.csv has no missing values")
+                print(f"  [OK] {name}.csv has no missing values")
         
         return not has_nulls
     
@@ -124,10 +124,10 @@ class DataValidator:
         actual_tiers = set(self.suppliers['tier'].unique())
         
         if actual_tiers == valid_tiers:
-            print(f"  ✓ All tiers are valid: {sorted(actual_tiers)}")
+            print(f"  [OK] All tiers are valid: {sorted(actual_tiers)}")
             return True
         else:
-            print(f"  ❌ Invalid tiers found: {actual_tiers}")
+            print(f"  [FAIL] Invalid tiers found: {actual_tiers}")
             return False
     
     def _check_dependency_edges(self) -> bool:
@@ -142,13 +142,13 @@ class DataValidator:
         invalid_targets = target_ids - supplier_ids
         
         if not invalid_sources and not invalid_targets:
-            print(f"  ✓ All {len(self.dependencies)} edges reference valid suppliers")
+            print(f"  [OK] All {len(self.dependencies)} edges reference valid suppliers")
             return True
         else:
             if invalid_sources:
-                print(f"  ❌ Invalid source IDs: {invalid_sources}")
+                print(f"  [FAIL] Invalid source IDs: {invalid_sources}")
             if invalid_targets:
-                print(f"  ❌ Invalid target IDs: {invalid_targets}")
+                print(f"  [FAIL] Invalid target IDs: {invalid_targets}")
             return False
     
     def _check_country_consistency(self) -> bool:
@@ -161,10 +161,10 @@ class DataValidator:
         missing = supplier_countries - risk_countries
         
         if not missing:
-            print(f"  ✓ All {len(supplier_countries)} countries have risk data")
+            print(f"  [OK] All {len(supplier_countries)} countries have risk data")
             return True
         else:
-            print(f"  ❌ Missing country risk data for: {missing}")
+            print(f"  [FAIL] Missing country risk data for: {missing}")
             return False
     
     def _check_product_bom_suppliers(self) -> bool:
@@ -180,11 +180,11 @@ class DataValidator:
             
             for sid in bom_supplier_ids:
                 if sid not in supplier_ids:
-                    print(f"  ❌ Product {product['product_id']} references invalid supplier: {sid}")
+                    print(f"  [FAIL] Product {product['product_id']} references invalid supplier: {sid}")
                     all_valid = False
-        
+
         if all_valid:
-            print(f"  ✓ All product BOMs reference valid suppliers")
+            print(f"  [OK] All product BOMs reference valid suppliers")
         
         return all_valid
     

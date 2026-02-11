@@ -53,7 +53,7 @@ def main():
         product_bom_df=product_bom
     )
     
-    print("✓ Analyzer initialized\n")
+    print("[OK] Analyzer initialized\n")
     
     # ================================================================
     # TOP 20 CRITICAL SUPPLIERS
@@ -99,7 +99,7 @@ def main():
     print("CRITICAL SUPPLIER CLUSTERS")
     print("="*60 + "\n")
     
-    print("Analyzing suppliers with criticality ≥ 10.0...\n")
+    print("Analyzing suppliers with criticality >= 10.0...\n")
     
     clusters = analyzer.identify_critical_clusters(criticality_threshold=10.0)
     
@@ -178,20 +178,20 @@ def main():
     # Top 5 critical
     top_5 = analyzer.get_top_critical(n=5)
     
-    print("🔴 URGENT (0-30 days):")
+    print("[!!] URGENT (0-30 days):")
     for idx, row in top_5.iterrows():
         print(f"  {idx}. {row['supplier_id']} - Criticality: {row['criticality_score']:.2f}")
         print(f"     Action: Qualify backup supplier for {row['component']}")
         print(f"     Reason: {row['risk_category']} risk + €{row['total_revenue_exposure']:.2f}M exposure")
     
     # Clusters
-    print("\n🟡 STRATEGIC (30-90 days):")
+    print("\n[!] STRATEGIC (30-90 days):")
     print(f"  • Diversify sourcing away from countries with highest criticality")
     print(f"  • Focus on: {', '.join(country_stats.head(3).index.tolist())}")
     
     # Tier focus
     highest_tier = tier_stats.loc[tier_stats['Avg Criticality'].idxmax()]
-    print(f"\n🟢 LONG-TERM (90+ days):")
+    print(f"\n[~] LONG-TERM (90+ days):")
     print(f"  • Strengthen Tier-{int(highest_tier['Tier'])} supplier relationships")
     print(f"  • This tier has highest average criticality: {highest_tier['Avg Criticality']:.2f}")
     
@@ -200,7 +200,7 @@ def main():
     print("="*60 + "\n")
     
     print("What criticality score means:")
-    print("  • Criticality = Risk × Revenue Exposure")
+    print("  • Criticality = Risk x Revenue Exposure")
     print("  • High criticality = High risk AND/OR high revenue impact")
     print("  • Focus mitigation on highest criticality suppliers first")
     print()
@@ -211,7 +211,7 @@ def main():
     print(f"  • {clusters['total_critical']} suppliers exceed criticality threshold of 10.0")
     
     print("\n" + "="*60)
-    print("✅ Sensitivity analysis test complete!")
+    print("[OK] Sensitivity analysis test complete!")
     print("="*60 + "\n")
 
 

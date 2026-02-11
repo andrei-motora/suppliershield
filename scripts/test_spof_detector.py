@@ -58,13 +58,13 @@ def main():
     print("="*60 + "\n")
     
     if not spofs:
-        print("✅ No Single Points of Failure detected!")
+        print("[OK] No Single Points of Failure detected!")
         print("All critical suppliers have backup options.")
     else:
         # Get detailed SPOF information
         spof_details = spof_detector.get_spof_details()
         
-        print(f"🚨 Found {len(spofs)} Single Points of Failure\n")
+        print(f"[ALERT] Found {len(spofs)} Single Points of Failure\n")
         print("-"*60)
         
         for i, spof in enumerate(spof_details, 1):
@@ -93,7 +93,7 @@ def main():
         critical_spofs = spof_detector.get_critical_spofs(risk_threshold=60.0)
         
         if critical_spofs:
-            print(f"\n🔴 Found {len(critical_spofs)} CRITICAL SPOFs (risk ≥ 60)\n")
+            print(f"\n[!!] Found {len(critical_spofs)} CRITICAL SPOFs (risk >= 60)\n")
             print("-"*60)
             
             for spof_id in critical_spofs:
@@ -102,9 +102,9 @@ def main():
                 print(f"  Tier: {node['tier']} | Component: {node['component']}")
                 print(f"  Country: {node['country']}")
                 print(f"  Propagated Risk: {node['risk_propagated']:.1f}")
-                print(f"  ⚠️  URGENT: This is both high-risk AND a single point of failure!")
+                print(f"  [!] URGENT: This is both high-risk AND a single point of failure!")
         else:
-            print("\n✅ No critical SPOFs (all SPOFs have acceptable risk levels)")
+            print("\n[OK] No critical SPOFs (all SPOFs have acceptable risk levels)")
         
         # Summary recommendations
         print("\n" + "="*60)
@@ -117,17 +117,17 @@ def main():
         low_priority = [s for s in spof_details if s['propagated_risk'] < 40]
         
         if high_priority:
-            print("🔴 HIGH PRIORITY (0-30 days):")
+            print("[!!] HIGH PRIORITY (0-30 days):")
             for spof in high_priority:
                 print(f"  • Qualify backup supplier for {spof['supplier_id']} ({spof['component']})")
         
         if medium_priority:
-            print("\n🟡 MEDIUM PRIORITY (30-90 days):")
+            print("\n[!] MEDIUM PRIORITY (30-90 days):")
             for spof in medium_priority:
                 print(f"  • Establish dual-sourcing for {spof['supplier_id']} ({spof['component']})")
         
         if low_priority:
-            print("\n🟢 LOW PRIORITY (90+ days):")
+            print("\n[~] LOW PRIORITY (90+ days):")
             for spof in low_priority:
                 print(f"  • Monitor and consider backup for {spof['supplier_id']} ({spof['component']})")
         
@@ -154,7 +154,7 @@ def main():
             print(f"  €{most_impactful['contract_value_eur_m']}M contract value")
     
     print("\n" + "="*60)
-    print("✅ SPOF detection test complete!")
+    print("[OK] SPOF detection test complete!")
     print("="*60 + "\n")
     
     # Export summary

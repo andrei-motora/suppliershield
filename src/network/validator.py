@@ -59,9 +59,9 @@ class NetworkValidator:
         
         print("\n" + "="*60)
         if all_valid:
-            print("✅ ALL NETWORK VALIDATIONS PASSED!")
+            print("[PASS] ALL NETWORK VALIDATIONS PASSED!")
         else:
-            print("❌ SOME NETWORK VALIDATIONS FAILED")
+            print("[FAIL] SOME NETWORK VALIDATIONS FAILED")
         print("="*60 + "\n")
         
         return all_valid
@@ -76,15 +76,15 @@ class NetworkValidator:
         print("Check 1: No cycles (DAG property)...")
         
         if nx.is_directed_acyclic_graph(self.graph):
-            print("  ✓ Graph is a valid DAG (no cycles)")
+            print("  [OK] Graph is a valid DAG (no cycles)")
             return True
         else:
             # Find cycles
             try:
                 cycle = nx.find_cycle(self.graph)
-                print(f"  ❌ Cycle detected: {cycle}")
+                print(f"  [FAIL] Cycle detected: {cycle}")
             except:
-                print("  ❌ Graph contains cycles")
+                print("  [FAIL] Graph contains cycles")
             return False
     
     def _check_connectivity(self) -> bool:
@@ -98,12 +98,12 @@ class NetworkValidator:
         # For directed graphs, check weak connectivity
         # (ignoring edge direction)
         if nx.is_weakly_connected(self.graph):
-            print("  ✓ All nodes are connected")
+            print("  [OK] All nodes are connected")
             return True
         else:
             # Find disconnected components
             components = list(nx.weakly_connected_components(self.graph))
-            print(f"  ⚠️  Network has {len(components)} separate components")
+            print(f"  [WARN] Network has {len(components)} separate components")
             
             # Show small components (likely orphans)
             small_components = [c for c in components if len(c) < 5]
@@ -146,10 +146,10 @@ class NetworkValidator:
                 )
         
         if not violations:
-            print("  ✓ All tier transitions are correct")
+            print("  [OK] All tier transitions are correct")
             return True
         else:
-            print(f"  ❌ Found {len(violations)} invalid tier transitions:")
+            print(f"  [FAIL] Found {len(violations)} invalid tier transitions:")
             for v in violations[:5]:  # Show first 5
                 print(f"    • {v}")
             if len(violations) > 5:
@@ -167,10 +167,10 @@ class NetworkValidator:
         self_loops = list(nx.selfloop_edges(self.graph))
         
         if not self_loops:
-            print("  ✓ No self-loops found")
+            print("  [OK] No self-loops found")
             return True
         else:
-            print(f"  ❌ Found {len(self_loops)} self-loops: {self_loops}")
+            print(f"  [FAIL] Found {len(self_loops)} self-loops: {self_loops}")
             return False
     
     def get_network_metrics(self) -> Dict:

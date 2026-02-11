@@ -50,9 +50,9 @@ def main():
             print(f"  • {country}: {count} suppliers")
         
         print("\n" + "="*60)
-        print("✅ Data validation complete!")
+        print("[OK] Data validation complete!")
     else:
-        print("\n⚠️  Please fix validation errors before proceeding.")
+        print("\n[WARNING] Please fix validation errors before proceeding.")
     
     return is_valid
 

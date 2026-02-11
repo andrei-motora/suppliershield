@@ -5,8 +5,9 @@
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![NetworkX](https://img.shields.io/badge/NetworkX-3.0+-orange.svg)](https://networkx.org/)
+[![Streamlit](https://img.shields.io/badge/Streamlit-1.40+-red.svg)](https://streamlit.io/)
 
-> A comprehensive supply chain risk management tool that maps multi-tier supplier networks, identifies vulnerabilities, and simulates disruption scenarios using graph theory, Monte Carlo analysis, and advanced network analytics.
+> A comprehensive supply chain risk management tool that maps multi-tier supplier networks, identifies vulnerabilities, simulates disruption scenarios using Monte Carlo analysis, and delivers actionable recommendations through an interactive Streamlit dashboard.
 
 **Built by Andrei** | HBO University Venlo, Netherlands | International Business Program
 
@@ -42,11 +43,15 @@ SupplierShield maps the full multi-tier supplier network (Tier-1 through Tier-3)
 
 ✅ **SPOF Detection** - Identifies 17 critical single points of failure with downstream impact analysis (up to €55.4M value at risk)
 
-🔄 **Monte Carlo Disruption Simulation** - Probabilistic revenue-at-risk estimation *(coming in Phase 3)*
+✅ **Monte Carlo Disruption Simulation** - Probabilistic revenue-at-risk estimation with 1,000-10,000 iterations across single-node, regional, and correlated failure scenarios
 
-🔄 **Sensitivity Analysis** - Criticality ranking: which single supplier failure causes the most damage *(coming in Phase 3)*
+✅ **Sensitivity Analysis** - Criticality ranking combining risk scores with revenue exposure; Pareto analysis showing 17.5% of suppliers drive 50% of total risk
 
-🔄 **Actionable Recommendations** - Rule-based prioritized action plan with timelines *(coming in Phase 3)*
+✅ **BOM Impact Tracing** - Maps supplier failures to affected products and quantifies revenue-at-risk across the entire product portfolio
+
+✅ **Actionable Recommendations** - Rule-based prioritized action plan with 59 recommendations across 4 severity levels and timelines
+
+✅ **Interactive Dashboard** - 5-page Streamlit application with network visualization, heatmaps, Monte Carlo simulator, treemaps, and export capabilities
 
 ---
 
@@ -58,9 +63,9 @@ SupplierShield maps the full multi-tier supplier network (Tier-1 through Tier-3)
 |---|---|---|
 | **Supplier** | S047 - Switzerland Global Industries | Based in very stable country |
 | **Country Risk** | Switzerland (political: 5, disaster: 10, logistics: 95) | Excellent conditions |
-| **Composite Risk** | 16.4/100 (LOW) | Looks completely safe ✓ |
+| **Composite Risk** | 16.4/100 (LOW) | Looks completely safe |
 | **Dependencies** | Depends on S009 (DR Congo, risk: 75.0 CRITICAL) | Hidden vulnerability! |
-| **Propagated Risk** | 39.9/100 (MEDIUM) | True risk revealed ⚠️ |
+| **Propagated Risk** | 39.9/100 (MEDIUM) | True risk revealed |
 | **Risk Increase** | **+23.4 points** | 143% increase from propagation |
 
 **Business Impact:** A procurement manager looking only at composite risk would classify this as "low priority." Risk propagation reveals it's actually **medium risk** due to dangerous dependencies.
@@ -72,11 +77,11 @@ upstream_risk = 75.0  # S009 (DR Congo)
 
 propagated = max(
     16.4,
-    16.4 × 0.6 + 75.0 × 0.4
+    16.4 * 0.6 + 75.0 * 0.4
 )
 = max(16.4, 9.84 + 30.0)
 = max(16.4, 39.84)
-= 39.9 ✓
+= 39.9
 ```
 
 ---
@@ -120,30 +125,30 @@ python scripts/generate_data.py
 SUPPLIERSHIELD DATA GENERATION
 ============================================================
 
-✓ Loaded 14 countries
+[OK] Loaded 14 countries
 Generating 40 Tier-3 suppliers...
 Generating 40 Tier-2 suppliers...
 Generating 40 Tier-1 suppliers...
-✓ Generated 120 total suppliers
-✓ Saved to data/raw/suppliers.csv
+[OK] Generated 120 total suppliers
+[OK] Saved to data/raw/suppliers.csv
 
 Generating supplier dependencies...
-✓ Generated 237 dependency edges
-✓ Saved to data/raw/dependencies.csv
+[OK] Generated 237 dependency edges
+[OK] Saved to data/raw/dependencies.csv
 
 Generating 10 product BOMs...
-✓ Generated 10 products
-✓ Saved to data/raw/product_bom.csv
+[OK] Generated 10 products
+[OK] Saved to data/raw/product_bom.csv
 
 ============================================================
 DATA GENERATION COMPLETE!
 ============================================================
 
 Summary:
-  • 120 suppliers across 3 tiers
-  • 237 supplier dependencies
-  • 10 products
-  • 14 countries
+  - 120 suppliers across 3 tiers
+  - 237 supplier dependencies
+  - 10 products
+  - 14 countries
 ```
 
 ### Run Complete Analysis Pipeline
@@ -159,7 +164,28 @@ python scripts/test_risk_propagation.py
 
 # SPOF detection and impact analysis
 python scripts/test_spof_detector.py
+
+# Monte Carlo disruption simulation
+python scripts/test_monte_carlo.py
+
+# Sensitivity analysis (criticality ranking)
+python scripts/test_sensitivity.py
+
+# Full Phase 3 integration test
+python scripts/test_phase3_complete.py
 ```
+
+### Launch Interactive Dashboard
+```bash
+streamlit run app/streamlit_app.py
+```
+Opens at `http://localhost:8501` with 5 interactive pages.
+
+### Run Unit Tests
+```bash
+pytest tests/ -v
+```
+**29 tests, all passing.**
 
 ---
 
@@ -172,9 +198,9 @@ python scripts/test_spof_detector.py
 **Network Structure:**
 ```
 Tier-3 (Raw Materials: 40 suppliers)
-   ↓ 
+   |
 Tier-2 (Components: 40 suppliers)
-   ↓
+   |
 Tier-1 (Assemblies: 40 suppliers)
 ```
 
@@ -185,14 +211,14 @@ Tier-1 (Assemblies: 40 suppliers)
   - Type: Directed Acyclic Graph (DAG) - no cycles
   - Density: 0.0166 (realistic sparsity)
   - Average degree: 1.98 connections per node
-  - Validation: All tier transitions correct (T3→T2→T1 only)
+  - Validation: All tier transitions correct (T3 -> T2 -> T1 only)
 
 **Validation Checks:**
 ```
-✓ Check 1: No cycles (DAG property) - PASS
-✓ Check 2: Network connectivity - PASS (4 components, 3 orphans)
-✓ Check 3: Correct tier flow - PASS (all edges follow T3→T2→T1)
-✓ Check 4: No self-loops - PASS
+[OK] Check 1: No cycles (DAG property) - PASS
+[OK] Check 2: Network connectivity - PASS (4 components, 3 orphans)
+[OK] Check 3: Correct tier flow - PASS (all edges follow T3 -> T2 -> T1)
+[OK] Check 4: No self-loops - PASS
 ```
 
 **Sample Node Attributes:**
@@ -232,11 +258,11 @@ Tier-1 (Assemblies: 40 suppliers)
 #### Composite Risk Formula
 ```python
 composite_risk = (
-    geopolitical_risk × 0.30 +
-    natural_disaster_risk × 0.20 +
-    financial_risk × 0.20 +
-    logistics_risk × 0.15 +
-    concentration_risk × 0.15
+    geopolitical_risk * 0.30 +
+    natural_disaster_risk * 0.20 +
+    financial_risk * 0.20 +
+    logistics_risk * 0.15 +
+    concentration_risk * 0.15
 )
 
 # Clamped to 0-100 range
@@ -254,7 +280,7 @@ if incoming_suppliers <= 1:
         concentration_risk = 60  # Tier-2/3 with no backup
 else:
     # Risk decreases with more suppliers
-    concentration_risk = max(10, 60 - incoming_suppliers × 15)
+    concentration_risk = max(10, 60 - incoming_suppliers * 15)
 ```
 
 #### Risk Categories
@@ -271,36 +297,24 @@ else:
 **Input Data:**
 ```
 Country: DR Congo
-  • Political Stability: 85
-  • Natural Disaster Freq: 60
-  • Logistics Performance: 25
+  - Political Stability: 85
+  - Natural Disaster Freq: 60
+  - Logistics Performance: 25
 Supplier-Specific:
-  • Financial Health: 2
-  • Incoming Suppliers: 0
+  - Financial Health: 2
+  - Incoming Suppliers: 0
 ```
 
 **Calculation:**
 ```
-Geopolitical:    85.0 × 0.30 = 25.50
-Natural Disaster: 60.0 × 0.20 = 12.00
-Financial:       (100-2) × 0.20 = 19.60  # 98
-Logistics:       (100-25) × 0.15 = 11.25  # 75
-Concentration:   60.0 × 0.15 =  9.00  # No suppliers
-                          ─────────
-Composite Risk:              77.35 ✓
+Geopolitical:    85.0 * 0.30 = 25.50
+Natural Disaster: 60.0 * 0.20 = 12.00
+Financial:       (100-2) * 0.20 = 19.60  # 98
+Logistics:       (100-25) * 0.15 = 11.25  # 75
+Concentration:   60.0 * 0.15 =  9.00  # No suppliers
+                          ---------
+Composite Risk:              77.35
 Category: CRITICAL
-```
-
-**Comparison: S089 (Switzerland)**
-```
-Geopolitical:     5.0 × 0.30 =  1.50
-Natural Disaster: 10.0 × 0.20 =  2.00
-Financial:        5.0 × 0.20 =  1.00  # health: 95
-Logistics:        5.0 × 0.15 =  0.75  # perf: 95
-Concentration:   10.0 × 0.15 =  1.50  # 4 suppliers
-                          ────────
-Composite Risk:               5.75 ✓
-Category: LOW
 ```
 
 #### Results Summary
@@ -311,10 +325,10 @@ Max risk score: 77.35 (S024 - DR Congo)
 Median risk score: 39.80
 
 Risk Distribution:
-  • LOW (0-34): 44 suppliers (37%)
-  • MEDIUM (35-54): 56 suppliers (47%)
-  • HIGH (55-74): 17 suppliers (14%)
-  • CRITICAL (75-100): 3 suppliers (2.5%)
+  - LOW (0-34): 44 suppliers (37%)
+  - MEDIUM (35-54): 56 suppliers (47%)
+  - HIGH (55-74): 17 suppliers (14%)
+  - CRITICAL (75-100): 3 suppliers (2.5%)
 ```
 
 ---
@@ -336,33 +350,19 @@ for supplier in tier_3:
 ```python
 for supplier in tier_2:
     upstream = get_tier3_suppliers_feeding_into(supplier)
-    
+
     if upstream:
         avg_upstream_risk = mean([propagated_risk[s] for s in upstream])
-        
+
         propagated_risk[supplier] = max(
             composite_risk[supplier],
-            composite_risk[supplier] × 0.6 + avg_upstream_risk × 0.4
+            composite_risk[supplier] * 0.6 + avg_upstream_risk * 0.4
         )
     else:
         propagated_risk[supplier] = composite_risk[supplier]
 ```
 
-**Step 3: Propagate to Tier-1**
-```python
-for supplier in tier_1:
-    upstream = get_tier2_suppliers_feeding_into(supplier)
-    
-    if upstream:
-        avg_upstream_risk = mean([propagated_risk[s] for s in upstream])
-        
-        propagated_risk[supplier] = max(
-            composite_risk[supplier],
-            composite_risk[supplier] × 0.6 + avg_upstream_risk × 0.4
-        )
-    else:
-        propagated_risk[supplier] = composite_risk[supplier]
-```
+**Step 3: Propagate to Tier-1** (same formula as Step 2)
 
 #### Key Design Decisions
 
@@ -373,15 +373,15 @@ for supplier in tier_1:
 #### Propagation Results
 ```
 Risk Propagation Summary:
-  • Average risk increase: 2.74 points
-  • Maximum risk increase: 23.40 points
-  • Suppliers with increased risk: 47/120 (39%)
+  - Average risk increase: 2.74 points
+  - Maximum risk increase: 23.40 points
+  - Suppliers with increased risk: 47/120 (39%)
 
 Propagated Risk Statistics:
-  • Average: 42.20 (was 39.46)
-  • Min: 13.41 (was 5.75)
-  • Max: 77.35 (unchanged - already at top)
-  • Median: 41.18 (was 39.80)
+  - Average: 42.20 (was 39.46)
+  - Min: 13.41 (was 5.75)
+  - Max: 77.35 (unchanged - already at top)
+  - Median: 41.18 (was 39.80)
 ```
 
 #### Top Risk Increases
@@ -395,7 +395,7 @@ Propagated Risk Statistics:
 
 #### Hidden Vulnerabilities Detected
 
-**Definition:** Suppliers with composite < 55 (MEDIUM or below) but propagated ≥ 55 (HIGH or above)
+**Definition:** Suppliers with composite < 55 (MEDIUM or below) but propagated >= 55 (HIGH or above)
 ```
 Found: 1 hidden vulnerability
 
@@ -405,26 +405,6 @@ S045 - China Superior Solutions
   Propagated Risk: 57.0 [actually risky - HIGH]
   Hidden Vulnerability: +11.7 points
 ```
-
-#### By-Tier Impact
-```
-Tier-1 (40 suppliers):
-  • Average Composite: 41.19
-  • Average Propagated: 43.83
-  • Average Increase: +2.64 points
-
-Tier-2 (40 suppliers):
-  • Average Composite: 33.96
-  • Average Propagated: 39.55
-  • Average Increase: +5.59 points  ← Highest increase!
-
-Tier-3 (40 suppliers):
-  • Average Composite: 43.23
-  • Average Propagated: 43.23
-  • Average Increase: 0.00 points  ← No dependencies below
-```
-
-**Why Tier-2 has highest increase:** Direct exposure to risky Tier-3 raw material suppliers!
 
 ---
 
@@ -440,16 +420,16 @@ Tier-3 (40 suppliers):
 #### Detection Results
 ```
 SPOF Detection Summary:
-  • Total SPOFs detected: 17
+  - Total SPOFs detected: 17
 
   SPOFs by Tier:
-    • Tier-1: 6 SPOFs
-    • Tier-2: 2 SPOFs
-    • Tier-3: 9 SPOFs
+    - Tier-1: 6 SPOFs
+    - Tier-2: 2 SPOFs
+    - Tier-3: 9 SPOFs
 
   SPOFs by Reason:
-    • High risk (>60): 10 SPOFs
-    • Only supplier for downstream: 7 SPOFs
+    - High risk (>60): 10 SPOFs
+    - Only supplier for downstream: 7 SPOFs
 ```
 
 #### Most Impactful SPOFs
@@ -473,9 +453,7 @@ Cascading failure through the entire network.
 
 #### Critical SPOFs (High Risk + No Backup)
 
-**Found: 10 CRITICAL SPOFs**
-
-All require immediate action (0-30 days):
+**Found: 10 CRITICAL SPOFs** — all requiring immediate action (0-30 days):
 
 | Supplier | Tier | Component | Country | Risk | Impact |
 |---|---|---|---|---|---|
@@ -492,52 +470,180 @@ All require immediate action (0-30 days):
 
 **Pattern:** 9 out of 10 critical SPOFs are in **DR Congo** (most unstable country in the dataset)
 
-#### SPOF Statistics
+---
+
+### Feature 5: Monte Carlo Disruption Simulation
+
+**Purpose:** Quantify revenue-at-risk from supplier disruptions through probabilistic simulation.
+
+#### How It Works
+
+1. **Select a target** — single supplier or entire region
+2. **Set disruption duration** — 7 to 90 days
+3. **Run 1,000-10,000 iterations** — each iteration randomly determines which suppliers fail based on their risk score and disruption duration
+4. **Calculate revenue impact** — for each failed supplier, trace which products are affected via the BOM
+
+#### Failure Probability Model
+```python
+base_probability = propagated_risk / 100.0
+duration_factor = min(duration_days / 30.0, 1.5)  # Cap at 1.5x
+failure_probability = min(base_probability * duration_factor, 0.95)
+```
+
+#### Scenario Types
+
+| Scenario | Description | Example |
+|---|---|---|
+| **Single Node** | Target supplier + all downstream dependents | S024 (DR Congo) fails for 30 days |
+| **Regional** | All suppliers in the same region | Asia-Pacific regional disruption |
+| **Correlated** | Suppliers sharing upstream dependencies | Correlated supply chain failure |
+
+#### Sample Results (S024 — DR Congo, 30 days, 5,000 iterations)
+```
+Simulation Results:
+  - Mean impact: €8.71M
+  - Median impact (P50): €8.77M
+  - 95th percentile (P95): €14.13M
+  - 99th percentile (P99): €15.86M
+  - Worst case: €18.52M
+  - Standard deviation: €3.36M
+```
+
+#### Scenario Comparison
+```
+                       Scenario        Type Mean Impact P95 Impact Worst Case
+      S024 - DR Congo (30 days) Single Node      €8.71M    €14.13M    €18.52M
+Asia-Pacific Regional (21 days)    Regional     €10.73M    €16.94M    €22.27M
+       S016 - US SPOF (45 days) Single Node     €15.66M    €19.69M    €23.46M
+```
+
+---
+
+### Feature 6: Sensitivity Analysis & Criticality Ranking
+
+**Purpose:** Answer "Which single supplier failure would cause the most damage?" by combining risk with revenue exposure.
+
+#### Criticality Formula
+```python
+criticality = (propagated_risk / 100) * total_revenue_exposure
+```
+
+Where `total_revenue_exposure = direct_revenue + (indirect_revenue * 0.5)`
+
+#### Top 5 Most Critical Suppliers
+
+| Rank | Supplier | Criticality | Risk | Exposure | Country |
+|---|---|---|---|---|---|
+| 1 | S017 - India Advanced Industries | 30.95 | 62.5 (HIGH) | €49.56M | India |
+| 2 | S024 - DR Congo Superior Mfg | 30.33 | 77.3 (CRITICAL) | €39.21M | DR Congo |
+| 3 | S016 - US Global Industries | 29.99 | 38.4 (MEDIUM) | €78.19M | US |
+| 4 | S014 - Thailand Intl Industries | 23.13 | 53.8 (MEDIUM) | €43.02M | Thailand |
+| 5 | S040 - Thailand Intl Mfg | 22.86 | 56.0 (HIGH) | €40.86M | Thailand |
+
+#### Pareto Analysis (80/20 Rule)
 ```
 Total Suppliers: 120
-Suppliers without backup: 87 (72.5%)
-SPOFs detected: 17 (14.2%)
+Total Criticality: 773.59
 
-SPOF Detection Rate: 19.5% of no-backup suppliers are SPOFs
-
-Most Impactful SPOF:
-  S016 - United States Global Industries
-  Affects 20 downstream suppliers
-  €0.77M contract → €55.4M at risk
+- 50% of criticality comes from: 21 suppliers (17.5%)
+- 80% of criticality comes from: 51 suppliers (42.5%)
+- Top 10 suppliers account for: 30.7% of total criticality
 ```
 
-#### Business Recommendations Generated
+#### Risk vs Exposure Matrix
 
-**🔴 HIGH PRIORITY (0-30 days): 10 actions**
+| Category | Count | Description |
+|---|---|---|
+| High Risk & High Exposure (CRITICAL) | 4 | Highest priority — both dangerous and impactful |
+| High Risk & Low Exposure (Monitor) | 10 | Dangerous but limited blast radius |
+| Low Risk & High Exposure (SPOF Candidate) | 26 | Safe now, but catastrophic if they fail |
+| Low Risk & Low Exposure (OK) | 80 | Acceptable risk level |
+
+---
+
+### Feature 7: BOM Impact Tracing
+
+**Purpose:** Map supplier failures to affected products and quantify revenue-at-risk.
+
+#### How It Works
+
+1. Identify the target supplier
+2. Find all downstream suppliers via graph traversal
+3. Cross-reference against product BOM (Bill of Materials)
+4. Calculate revenue impact per product
+
+#### Example: S017 Failure Impact
 ```
-Qualify backup supplier for:
-  • S017 (Plastic Resin)
-  • S011 (Silicon Wafer)
-  • S049 (Semiconductor Chip)
-  • S055 (Connector Set)
-  • S083 (Housing & Enclosure)
-  • S085 (Assembled PCB Module)
-  • S097 (Assembled PCB Module)
-  • S103 (Battery Pack)
-  • S108 (Display Panel Assembly)
-  • S120 (Display Panel Assembly)
+Supplier: S017 - India Advanced Industries (Tier-3, Plastic Resin)
+
+Total affected suppliers: 17
+  - Direct: 1 (S017)
+  - Downstream cascade: 16
+
+Affected Products: 8 out of 10
+Total Revenue at Risk: €47.10M
+
+Product Impact Breakdown:
+  P004 - Precision Monitor DX:    €8.22M (50% suppliers affected) - HIGH
+  P008 - ConnectNode Gateway:     €6.62M (60% suppliers affected) - HIGH
+  P005 - AutomationHub 5000:      €5.36M (57% suppliers affected) - HIGH
+  P007 - PowerCore System:        €7.33M (25% suppliers affected) - MEDIUM
+  P002 - Industrial Controller:   €7.15M (33% suppliers affected) - MEDIUM
 ```
 
-**🟡 MEDIUM PRIORITY (30-90 days): 2 actions**
+---
+
+### Feature 8: Recommendation Engine
+
+**Purpose:** Generate prioritized, actionable risk mitigation recommendations.
+
+#### Rule Set
+
+The engine evaluates every supplier against rules including:
+- SPOF with high risk → establish dual-sourcing
+- High-value contract with no backup → qualify backup supplier
+- Low financial health → monitor stability
+- Regional concentration → diversify sourcing
+
+#### Output Summary
 ```
-Establish dual-sourcing for:
-  • S040 (Aluminum Sheet)
-  • S021 (Plastic Resin)
+Total Recommendations: 59
+  - CRITICAL: 0
+  - HIGH: 19 (30-60 days)
+  - MEDIUM: 17 (60-90 days)
+  - WATCH: 23 (ongoing monitoring)
+
+Contract Value at Risk:
+  - HIGH priority suppliers: €50.44M
+  - 40 unique suppliers require action
+  - 9 countries affected
 ```
 
-**🟢 LOW PRIORITY (90+ days): 5 actions**
-```
-Monitor and consider backup for:
-  • S016 (Plastic Resin)
-  • S034 (Silicon Wafer)
-  • S008 (Aluminum Sheet)
-  • S023 (Rare Earth Elements)
-  • S032 (Lithium Compound)
+---
+
+### Feature 9: Interactive Streamlit Dashboard
+
+**5-page interactive application** with dark theme and orange accent styling.
+
+#### Pages
+
+| Page | Description | Key Visualizations |
+|---|---|---|
+| **Risk Overview** | Network-wide KPIs, risk gauges, category distribution | Gauge charts, donut chart, interactive network graph |
+| **Risk Rankings** | Filterable supplier table with risk heatmap | Styled dataframe, 5-dimension heatmap, top-10 analysis |
+| **What-If Simulator** | Monte Carlo disruption scenarios | Impact distribution histogram, percentile stats, management summary |
+| **Sensitivity Analysis** | Criticality ranking and risk matrix | Treemap, bubble chart, country bar chart, tier comparison |
+| **Recommendations** | Prioritized action items with severity levels | Severity-coded cards, donut summary, CSV export |
+
+#### Dashboard Features
+- **Interactive network graph** with zoom, pan, and node filtering by tier/risk
+- **Real-time Monte Carlo simulation** configurable from the UI
+- **Downloadable reports** — CSV export of rankings and recommendations
+- **Responsive layout** — works on any screen size
+
+```bash
+# Launch the dashboard
+streamlit run app/streamlit_app.py
 ```
 
 ---
@@ -553,82 +659,88 @@ Monitor and consider backup for:
 | **Pandas** | 2.3+ | Data manipulation | Fast CSV processing, DataFrame operations |
 | **NumPy** | 2.4+ | Numerical computation | Efficient array operations, statistical functions |
 
-### Visualization & Testing
+### Visualization & Dashboard
 
 | Technology | Version | Purpose |
 |---|---|---|
-| **Matplotlib** | 3.10+ | Static charts and visualizations |
-| **Plotly** | 6.5+ | Interactive charts (future dashboard) |
-| **Pytest** | 9.0+ | Unit testing framework |
+| **Streamlit** | 1.40+ | Interactive multi-page web dashboard |
+| **Plotly** | 6.5+ | Interactive charts (histograms, treemaps, network graphs, gauges) |
+| **Pytest** | 9.0+ | Unit testing framework (29 tests) |
 
-### Future Stack (Roadmap)
+### Future Roadmap
 
-- **Streamlit** - Interactive dashboard (Phase 4)
-- **FastAPI** - REST API backend (Phase 5)
-- **React** - Web frontend (Phase 5)
-- **React Native** - Mobile app (Phase 6)
+- **FastAPI** - REST API backend
+- **React** - Web frontend
+- **React Native** - Mobile app
 
 ---
 
 ## 📁 Project Structure
 ```
 suppliershield/
-├── README.md                   # This file
-├── LICENSE                     # MIT License
-├── requirements.txt            # Python dependencies
-├── .gitignore                  # Git ignore rules
-├── .env.example                # Environment variables template
+├── README.md                          # This file
+├── CLAUDE.md                          # Claude Code onboarding guide
+├── LICENSE                            # MIT License
+├── requirements.txt                   # Python dependencies
+├── .gitignore                         # Git ignore rules
+├── .env.example                       # Environment variables template
 │
-├── src/                        # Core analytics engine
-│   ├── __init__.py
-│   ├── data/                   # Data generation & validation
-│   │   ├── __init__.py
-│   │   ├── generator.py        # Synthetic data generator (450 lines)
-│   │   ├── loader.py           # Data validation module (200 lines)
-│   │   └── schemas.py          # Schema definitions (150 lines)
-│   ├── network/                # Graph construction
-│   │   ├── __init__.py
-│   │   ├── builder.py          # NetworkX graph builder (250 lines)
-│   │   └── validator.py        # Network integrity checks (200 lines)
-│   └── risk/                   # Risk analysis modules
-│       ├── __init__.py
-│       ├── config.py           # Risk weights & thresholds (80 lines)
-│       ├── scorer.py           # Multi-dimensional risk scoring (300 lines)
-│       ├── propagation.py      # Risk cascade algorithm (200 lines)
-│       └── spof_detector.py    # SPOF detection & impact (250 lines)
+├── src/                               # Core analytics engine (~3,500 lines)
+│   ├── data/                          # Data generation & validation
+│   │   ├── generator.py               # Synthetic data generator (343 lines)
+│   │   ├── loader.py                  # Data validation module (209 lines)
+│   │   └── schemas.py                 # Schema definitions
+│   ├── network/                       # Graph construction
+│   │   ├── builder.py                 # NetworkX graph builder (211 lines)
+│   │   └── validator.py               # Network integrity checks (208 lines)
+│   ├── risk/                          # Risk analysis modules
+│   │   ├── config.py                  # Risk weights & thresholds
+│   │   ├── scorer.py                  # Multi-dimensional risk scoring (286 lines)
+│   │   ├── propagation.py            # Risk cascade algorithm (255 lines)
+│   │   └── spof_detector.py          # SPOF detection & impact (285 lines)
+│   ├── simulation/                    # Monte Carlo & sensitivity
+│   │   ├── monte_carlo.py            # Disruption simulator (353 lines)
+│   │   └── sensitivity.py            # Criticality ranking (386 lines)
+│   ├── impact/                        # Product impact analysis
+│   │   └── bom_tracer.py             # BOM-to-supplier tracing (411 lines)
+│   └── recommendations/              # Action plan generation
+│       └── engine.py                  # Rule-based recommendations (402 lines)
 │
-├── data/
-│   └── raw/                    # Generated CSV files
-│       ├── suppliers.csv       # 120 suppliers
-│       ├── dependencies.csv    # 237 edges
-│       ├── country_risk.csv    # 14 countries
-│       └── product_bom.csv     # 10 products
+├── app/                               # Streamlit dashboard (~2,000 lines)
+│   ├── streamlit_app.py              # Main app + Risk Overview page (535 lines)
+│   ├── shared_styles.py              # Theme, colors, CSS, UI helpers (327 lines)
+│   └── pages/
+│       ├── 1_📊_Risk_Rankings.py     # Filterable risk table + heatmap (338 lines)
+│       ├── 2_🎲_What_If_Simulator.py # Monte Carlo UI (300 lines)
+│       ├── 3_📈_Sensitivity_Analysis.py # Criticality ranking (477 lines)
+│       └── 4_📋_Recommendations.py   # Action items + export (389 lines)
 │
-├── scripts/                    # Executable test scripts
-│   ├── generate_data.py        # Data generation CLI
-│   ├── validate_data.py        # Data validation CLI
-│   ├── test_network.py         # Network construction test
-│   ├── test_risk_scorer.py     # Risk scoring test
-│   ├── test_risk_propagation.py # Risk propagation test
-│   └── test_spof_detector.py   # SPOF detection test
+├── scripts/                           # CLI entry points & validation scripts
+│   ├── generate_data.py              # Data generation CLI
+│   ├── validate_data.py              # Data validation CLI
+│   ├── test_network.py               # Network construction test
+│   ├── test_risk_scorer.py           # Risk scoring test
+│   ├── test_risk_propagation.py      # Risk propagation test
+│   ├── test_spof_detector.py         # SPOF detection test
+│   ├── test_monte_carlo.py           # Monte Carlo test
+│   ├── test_sensitivity.py           # Sensitivity analysis test
+│   └── test_phase3_complete.py       # Full integration test
 │
-├── tests/                      # Unit tests (Phase 6)
-│   ├── __init__.py
-│   ├── test_data_generator.py
-│   ├── test_network_builder.py
-│   ├── test_risk_scorer.py
-│   └── test_propagation.py
+├── tests/                             # Unit tests (29 tests, all passing)
+│   ├── conftest.py                   # Pytest fixtures
+│   ├── test_risk_scorer.py           # Risk scoring tests (10 tests)
+│   ├── test_propagation.py           # Propagation tests (9 tests)
+│   ├── test_spof_detector.py         # SPOF detection tests (5 tests)
+│   └── test_monte_carlo.py           # Monte Carlo tests (5 tests)
 │
-├── notebooks/                  # Jupyter notebooks
-│   └── 01_data_exploration.ipynb
-│
-└── docs/                       # Documentation
-    ├── methodology.md
-    ├── validation_report.md
-    └── data_dictionary.md
+└── data/raw/                          # Generated CSV files
+    ├── suppliers.csv                  # 120 suppliers
+    ├── dependencies.csv               # 237 edges
+    ├── country_risk.csv               # 14 countries
+    └── product_bom.csv                # 10 products
 ```
 
-**Total Code:** ~2,000 lines of Python across 15 modules
+**Total Code:** ~8,000 lines of Python across 40+ modules
 
 ---
 
@@ -651,7 +763,7 @@ suppliershield/
 
 3. **Past Disruptions** - Poisson distribution based on disaster frequency:
 ```python
-   lambda = (country_disaster_freq / 100) × 3
+   lambda = (country_disaster_freq / 100) * 3
    past_disruptions = poisson(lambda)
 ```
 
@@ -665,159 +777,38 @@ suppliershield/
    - Each Tier-1 depends on 2-5 Tier-2 suppliers (typical assembly complexity)
    - Random seed = 42 (reproducible generation)
 
-### Network Validation
+### Validation Summary
 
-All networks pass 4 integrity checks:
-```
-✓ Check 1: No cycles (DAG property)
-✓ Check 2: Network connectivity (identifies orphans but allows them)
-✓ Check 3: Correct tier flow (only T3→T2→T1 edges allowed)
-✓ Check 4: No self-loops (supplier can't depend on itself)
-```
-
-### Risk Scoring Validation
-
-**Weight Validation:**
-```python
-assert sum(RISK_WEIGHTS.values()) == 1.0
-# geopolitical(0.30) + disaster(0.20) + financial(0.20) + 
-# logistics(0.15) + concentration(0.15) = 1.00 ✓
-```
-
-**Output Range Validation:**
-```python
-assert all(0 <= score <= 100 for score in composite_risks)
-# All 120 scores within valid range ✓
-```
-
-**Category Distribution Validation:**
-```
-Expected: Roughly normal distribution centered around 40-50
-Actual:
-  LOW (0-34): 44 suppliers (37%)
-  MEDIUM (35-54): 56 suppliers (47%)
-  HIGH (55-74): 17 suppliers (14%)
-  CRITICAL (75-100): 3 suppliers (2.5%)
-✓ Realistic distribution
-```
-
-### Risk Propagation Validation
-
-**Algorithm Correctness - Manual Verification:**
-
-**Test Case: 3-Node Chain**
-```
-S001 (Tier-3) → S041 (Tier-2) → S081 (Tier-1)
-
-S001: composite = 59.0, propagated = 59.0 (no upstream)
-S041: composite = 28.1
-  upstream = [S001 (59.0), S014 (53.8)]
-  avg_upstream = (59.0 + 53.8) / 2 = 56.4
-  propagated = max(28.1, 28.1×0.6 + 56.4×0.4)
-            = max(28.1, 16.86 + 22.56)
-            = max(28.1, 39.42)
-            = 39.42 ✓
-
-Manual calculation matches system output ✓
-```
-
-**Monotonicity Validation:**
-```python
-assert all(propagated >= composite for all suppliers)
-# Risk never decreases ✓
-```
-
-### SPOF Detection Validation
-
-**Known SPOF Test:**
-```
-S016: has_backup = False, downstream_count = 20
-Expected: Detected as SPOF
-Actual: ✓ Detected, reason: "Only supplier for S042"
-
-S089: has_backup = True, downstream_count = 0
-Expected: NOT a SPOF (has backup)
-Actual: ✓ Not detected
-
-S024: has_backup = False, risk = 77.3
-Expected: Detected as SPOF
-Actual: ✓ Detected, reason: "High risk (77.3) with no backup"
-```
-
-**Impact Calculation Validation:**
-```
-S016 descendants: {S042, S053, S068, S069, ... 20 total}
-Manual count: 20 ✓
-System count: 20 ✓
-
-Contract values:
-S016: €0.77M
-Sum of descendants: €54.63M
-Total: €55.40M ✓
-System total: €55.40M ✓
-```
+| Validation | Method | Status |
+|---|---|---|
+| Network is DAG (no cycles) | `nx.is_directed_acyclic_graph()` | PASS |
+| Correct tier flow (T3 -> T2 -> T1) | Edge direction check | PASS |
+| No self-loops | Loop detection | PASS |
+| Risk weights sum to 1.0 | Assertion check | PASS |
+| All risk scores 0-100 | Range validation | PASS |
+| Propagated risk >= composite | Monotonicity check | PASS |
+| SPOF detection correctness | Manual verification | PASS |
+| Monte Carlo convergence | Statistical validation | PASS |
+| 29 unit tests | Pytest | ALL PASSING |
 
 ---
 
 ## 📈 Project Status & Roadmap
 
-### Current Phase: Phase 2 Complete ✅
+### Current Phase: Phase 5 Complete
 
 **Completed Phases:**
 
-- ✅ **Phase 0 - Project Setup** (Week 1)
-  - Git repository initialization
-  - Virtual environment setup
-  - Folder structure creation
-  - README skeleton
-  - MIT License
+- **Phase 1 - Data Layer** - Synthetic data generator, validation, 120 suppliers, 237 dependencies, 14 countries
+- **Phase 2 - Network & Risk Engine** - Graph construction, 5-dimension risk scoring, risk propagation, SPOF detection
+- **Phase 3 - Disruption Simulation** - Monte Carlo simulator (3 scenario types), sensitivity analysis, criticality ranking
+- **Phase 4 - BOM & Recommendations** - BOM impact tracer, rule-based recommendation engine with 59 prioritized actions
+- **Phase 5 - Interactive Dashboard & Testing** - 5-page Streamlit app, 29 unit tests, integration tests
 
-- ✅ **Phase 1 - Data Layer** (Weeks 2-3)
-  - Synthetic data generator (400+ lines)
-  - Data validation module
-  - Country risk data (14 countries)
-  - Schema definitions
-  - 120 suppliers, 237 dependencies, 10 products
+### Upcoming
 
-- ✅ **Phase 2 - Network & Risk Engine** (Weeks 4-5)
-  - Network graph construction (NetworkX)
-  - Network validation (4 checks)
-  - Five-dimension risk scoring
-  - Risk propagation algorithm
-  - SPOF detection with impact analysis
-
-### Upcoming Phases
-
-**🔄 Phase 3 - Disruption Simulation** (Weeks 6-7)
-- Monte Carlo disruption simulator (1,000-10,000 iterations)
-- Three scenario types:
-  - Single-node knockout
-  - Regional disruption
-  - Correlated failure
-- Sensitivity analysis (criticality ranking)
-- BOM-to-supplier impact tracing
-
-**🔄 Phase 4 - Recommendations & BOM** (Week 8)
-- Rule-based recommendation engine
-- BOM impact tracer
-- Scenario comparison
-
-**🔄 Phase 5 - Streamlit Dashboard** (Weeks 9-10)
-- 5 interactive pages:
-  - Network Overview
-  - Risk Rankings
-  - What-If Simulator
-  - Sensitivity Analysis
-  - Recommendations
-- Interactive network visualization (pyvis/plotly)
-- Export to PDF/CSV
-
-**🔄 Phase 6 - Testing & Polish** (Weeks 11-12)
-- Unit tests (80%+ coverage)
-- Integration tests
-- Documentation completion
-- Demo video
-- v1.0 release
+- **Phase 6 - API & Web Frontend** - FastAPI REST backend, React web app
+- **Phase 7 - Mobile & Production** - React Native app, containerization, CI/CD
 
 ---
 
@@ -842,41 +833,41 @@ System total: €55.40M ✓
 **Problem:** "How much revenue is really at risk if China shuts down?"
 
 **Solution:**
-- Quantify revenue-at-risk from supplier disruptions
+- Run Monte Carlo simulations to quantify revenue-at-risk probabilistically
 - Detect hidden vulnerabilities in multi-tier dependencies
-- Monitor concentration risk by region/country
+- Monitor concentration risk by region/country through the interactive dashboard
 
 **Value Delivered:**
+- Revenue impact quantified: €8.71M mean, €18.52M worst case (single supplier)
+- Regional disruption modeled: Asia-Pacific event = €10.73M expected loss
 - 1 hidden vulnerability revealed (S045: looked safe, actually high-risk)
-- Regional concentration quantified (e.g., 9/10 critical SPOFs in DR Congo)
-- Propagated risk increases averaged +2.74 points across 47 suppliers
 
 ### For Supply Chain Directors
 
 **Problem:** "Where should we invest in supply chain resilience?"
 
 **Solution:**
-- Data-driven supplier diversification strategy
-- SPOF elimination roadmap with timelines
-- Network resilience metrics and KPIs
+- Data-driven supplier diversification strategy via sensitivity analysis
+- SPOF elimination roadmap with timelines and severity levels
+- Interactive dashboard for exploring scenarios and exporting reports
 
 **Value Delivered:**
-- 72x impact multiplier discovered (S016: €0.77M → €55.4M at risk)
-- Tier-2 identified as highest-risk tier (avg +5.59 point increase from propagation)
-- Clear action plan: 10 high-priority, 2 medium-priority, 5 low-priority actions
+- 72x impact multiplier discovered (S016: €0.77M contract -> €55.4M at risk)
+- Pareto insight: just 21 suppliers (17.5%) drive 50% of total risk
+- 59 actionable recommendations with priority levels and timelines
 
 ---
 
 ## 👨‍💻 Author
 
-**Andrei**  
-International Business Student  
-HBO University of Applied Sciences, Venlo, Netherlands  
+**Andrei**
+International Business Student
+HBO University of Applied Sciences, Venlo, Netherlands
 Expected Graduation: 2029
 
 *Building data-driven supply chain resilience tools for the Venlo-Limburg logistics corridor*
 
-**Contact:**  
+**Contact:**
 [GitHub](https://github.com/andrei-motora) | LinkedIn
 
 ---
@@ -898,14 +889,14 @@ in the Software without restriction...
 
 ## 🙏 Acknowledgments
 
-- Portfolio project demonstrating supply chain analytics and graph theory
+- Portfolio project demonstrating supply chain analytics, graph theory, and Monte Carlo simulation
 - Synthetic data methodology based on World Bank and ND-GAIN indices
 - Designed for the Venlo-Limburg logistics and manufacturing industry
 - Built with guidance on best practices for procurement risk management
 
 ---
 
-## ⚠️ Important Notes
+## Important Notes
 
 **This project uses synthetic data for demonstration purposes.**
 
@@ -921,12 +912,14 @@ For production use with real supplier data:
 This project demonstrates proficiency in:
 - Graph theory and network analysis
 - Multi-dimensional risk modeling
+- Monte Carlo simulation and probabilistic analysis
 - Algorithm design and implementation
+- Interactive data visualization (Streamlit + Plotly)
 - Data validation and quality assurance
 - Python software engineering best practices
 
 ---
 
-**Last Updated:** February 2026  
-**Version:** 2.0 (Phase 2 Complete)  
+**Last Updated:** February 2026
+**Version:** 5.0 (Phase 5 Complete)
 **Status:** Active Development

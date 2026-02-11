@@ -88,8 +88,8 @@ def main():
     high_risk = scorer.get_high_risk_suppliers(threshold=55.0)
     critical_risk = scorer.get_high_risk_suppliers(threshold=75.0)
     
-    print(f"\nHigh-Risk Suppliers (score ≥ 55): {len(high_risk)}")
-    print(f"Critical-Risk Suppliers (score ≥ 75): {len(critical_risk)}")
+    print(f"\nHigh-Risk Suppliers (score >= 55): {len(high_risk)}")
+    print(f"Critical-Risk Suppliers (score >= 75): {len(critical_risk)}")
     
     # Show critical suppliers by tier
     if critical_risk:
@@ -130,7 +130,7 @@ def main():
     print(f"  • Financial: {scores['financial']:.1f} (weight: 20%)")
     print(f"  • Logistics: {scores['logistics']:.1f} (weight: 15%)")
     print(f"  • Concentration: {scores['concentration']:.1f} (weight: 15%)")
-    print(f"\n  → COMPOSITE: {scores['composite']:.1f}/100 [{scores['category']}]")
+    print(f"\n  -> COMPOSITE: {scores['composite']:.1f}/100 [{scores['category']}]")
     
     # Manual verification
     manual_composite = (
@@ -144,7 +144,7 @@ def main():
     print(f"Matches? {abs(manual_composite - scores['composite']) < 0.01}")
     
     print("\n" + "="*60)
-    print("✅ Risk scoring test complete!")
+    print("[OK] Risk scoring test complete!")
     print("="*60 + "\n")
 
 

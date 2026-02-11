@@ -53,21 +53,21 @@ class RiskPropagator:
             composite_risk = self.graph.nodes[node_id]['risk_composite']
             self.propagated_risks[node_id] = composite_risk
         
-        print(f"✓ Tier-3 propagated risks set (same as composite)")
+        print(f"[OK] Tier-3 propagated risks set (same as composite)")
         
         # Step 3: Propagate to Tier-2
         print(f"\nProcessing {len(tier_2)} Tier-2 suppliers...")
         for node_id in tier_2:
             self.propagated_risks[node_id] = self._propagate_node_risk(node_id)
         
-        print(f"✓ Tier-2 risks propagated")
+        print(f"[OK] Tier-2 risks propagated")
         
         # Step 4: Propagate to Tier-1
         print(f"\nProcessing {len(tier_1)} Tier-1 suppliers...")
         for node_id in tier_1:
             self.propagated_risks[node_id] = self._propagate_node_risk(node_id)
         
-        print(f"✓ Tier-1 risks propagated")
+        print(f"[OK] Tier-1 risks propagated")
         
         # Add propagated risks to graph nodes
         self._add_to_graph()
@@ -120,7 +120,7 @@ class RiskPropagator:
         for node_id, propagated_risk in self.propagated_risks.items():
             self.graph.nodes[node_id]['risk_propagated'] = round(propagated_risk, 2)
         
-        print("✓ Propagated risks added to graph")
+        print("[OK] Propagated risks added to graph")
     
     def _print_propagation_summary(self) -> None:
         """Print summary statistics about risk propagation."""

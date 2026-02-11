@@ -70,7 +70,7 @@ class SupplierNetworkBuilder:
         # Step 4: Calculate network statistics
         self._print_network_stats()
         
-        print("\n✅ Network graph built successfully!\n")
+        print("\n[PASS] Network graph built successfully!\n")
         
         return self.graph
     
@@ -98,7 +98,7 @@ class SupplierNetworkBuilder:
                 has_backup=supplier['has_backup']
             )
         
-        print(f"✓ Added {self.graph.number_of_nodes()} nodes")
+        print(f"[OK] Added {self.graph.number_of_nodes()} nodes")
     
     def _add_country_risk_to_nodes(self) -> None:
         """Add country risk indices to each supplier node."""
@@ -125,7 +125,7 @@ class SupplierNetworkBuilder:
             # Add risk indices as node attributes
             self.graph.nodes[node_id].update(risk_data)
         
-        print(f"✓ Added country risk data to all nodes")
+        print(f"[OK] Added country risk data to all nodes")
     
     def _add_dependency_edges(self) -> None:
         """Add dependency relationships as directed edges."""
@@ -143,7 +143,7 @@ class SupplierNetworkBuilder:
                 weight=weight
             )
         
-        print(f"✓ Added {self.graph.number_of_edges()} edges")
+        print(f"[OK] Added {self.graph.number_of_edges()} edges")
     
     def _print_network_stats(self) -> None:
         """Print statistics about the network structure."""

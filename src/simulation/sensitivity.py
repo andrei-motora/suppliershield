@@ -104,7 +104,7 @@ class SensitivityAnalyzer:
         df = df.reset_index(drop=True)
         df.index = df.index + 1  # Start ranking from 1
         
-        print("✓ Criticality calculated for all suppliers")
+        print("[OK] Criticality calculated for all suppliers")
         
         return df
     

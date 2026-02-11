@@ -98,7 +98,7 @@ class RiskScorer:
                 'category': category
             }
         
-        print(f"✓ Calculated risk scores for {len(self.risk_scores)} suppliers")
+        print(f"[OK] Calculated risk scores for {len(self.risk_scores)} suppliers")
         
         # Print summary statistics
         self._print_risk_summary()
@@ -284,4 +284,4 @@ class RiskScorer:
             self.graph.nodes[node_id]['risk_composite'] = scores['composite']
             self.graph.nodes[node_id]['risk_category'] = scores['category']
         
-        print(f"✓ Added risk scores to all graph nodes")
+        print(f"[OK] Added risk scores to all graph nodes")
