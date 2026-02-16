@@ -72,7 +72,7 @@ Regional concentration is the most urgent structural weakness: **9 of 10 critica
 
 ## ⚡ How It Works
 
-`CSV → NetworkX Graph → Risk Scoring → Propagation → SPOF Detection → Monte Carlo Simulation → Streamlit Dashboard`
+`CSV → NetworkX Graph → Risk Scoring → Propagation → SPOF Detection → Monte Carlo Simulation → React Dashboard`
 
 ```
 src/
@@ -83,7 +83,8 @@ src/
 ├── impact/              # BOM tracer — map supplier failures to product revenue-at-risk
 └── recommendations/     # Rule-based engine — 59 prioritized actions with timelines
 
-app/                     # Streamlit dashboard — 5 pages, dark theme, interactive charts
+backend/                 # FastAPI REST API
+frontend/                # React + TypeScript SPA — 5 pages, dark theme, interactive charts
 scripts/                 # CLI entry points for each pipeline stage
 tests/                   # 29 pytest unit tests
 data/raw/                # Generated CSVs (suppliers, dependencies, country_risk, product_bom)
@@ -93,16 +94,16 @@ data/raw/                # Generated CSVs (suppliers, dependencies, country_risk
 
 ## 🧪 Tech Stack
 
-| Python | pandas | NetworkX | NumPy | Plotly | Streamlit | pytest |
-|---|---|---|---|---|---|---|
-| Core language | Data manipulation | Graph analysis | Numerical computation | Interactive charts | Dashboard UI | Testing framework |
+| Python | FastAPI | React | TypeScript | pandas | NetworkX | NumPy | Plotly | pytest |
+|---|---|---|---|---|---|---|---|---|
+| Core language | REST API | Frontend UI | Type safety | Data manipulation | Graph analysis | Numerical computation | Interactive charts | Testing framework |
 
 ---
 
 ## 🗺️ Roadmap
 
-- ✅ **Stage 1** — Python analytics engine + Streamlit dashboard *(current)*
-- 🔲 **Stage 2** — FastAPI REST API + React web application
+- ✅ **Stage 1** — Python analytics engine
+- ✅ **Stage 2** — FastAPI REST API + React web application *(current)*
 - 🔲 **Stage 3** — React Native mobile app
 
 ---
@@ -116,7 +117,13 @@ git clone https://github.com/andrei-motora/suppliershield.git
 cd suppliershield
 pip install -r requirements.txt
 python scripts/generate_data.py
-streamlit run app/streamlit_app.py
+
+# Option 1: Docker (recommended)
+docker compose up --build
+
+# Option 2: Manual
+uvicorn backend.main:app --reload --port 8000
+cd frontend && npm install && npm run dev
 ```
 
 ---
