@@ -68,3 +68,8 @@ CLAUDE.md
 
 # Docs/images (removed from README)
 docs/images/
+
+# Media files (hosted via GitHub assets)
+*.mp4
+*.gif
+*.mov
