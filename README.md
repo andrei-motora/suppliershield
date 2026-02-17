@@ -97,7 +97,7 @@ Open **http://localhost:5173** (dev) or **http://localhost** (Docker) and click 
 
 ## Author
 
-**Andrei** — International Business, HBO University of Applied Sciences, Venlo.
+**Andrei** — International Business, Fontys University of Applied Sciences, Venlo.
 
 I build data-driven tools that turn supply chain complexity into actionable risk intelligence.
 
