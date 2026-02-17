@@ -58,5 +58,13 @@ verify-frontend.html
 .pytest_cache/
 .coverage
 htmlcov/
+
+# Claude Code
 .claude/
 CLAUDE.md
+
+# Streamlit (legacy)
+.streamlit/
+
+# Docs/images (removed from README)
+docs/images/
