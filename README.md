@@ -8,6 +8,8 @@
 
 > *What if the safest supplier in your network is actually your biggest risk?*
 
+<video src="Demo.mp4" controls width="100%"></video>
+
 ---
 
 ## The Problem
