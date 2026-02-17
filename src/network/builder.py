@@ -39,9 +39,14 @@ class SupplierNetworkBuilder:
             dependencies_df: Supplier-to-supplier dependencies
             country_risk_df: Country risk indices
         """
-        self.suppliers_df = suppliers_df
-        self.dependencies_df = dependencies_df
+        self.suppliers_df = suppliers_df.copy()
+        self.dependencies_df = dependencies_df.copy()
         self.country_risk_df = country_risk_df
+
+        # Normalize ID columns to strings to handle both numeric and string IDs
+        self.suppliers_df['id'] = self.suppliers_df['id'].astype(str)
+        self.dependencies_df['source_id'] = self.dependencies_df['source_id'].astype(str)
+        self.dependencies_df['target_id'] = self.dependencies_df['target_id'].astype(str)
         
         print(f"Loaded {len(suppliers_df)} suppliers")
         print(f"Loaded {len(dependencies_df)} dependencies")
@@ -80,7 +85,7 @@ class SupplierNetworkBuilder:
         
         for _, supplier in self.suppliers_df.iterrows():
             # Add node with supplier ID
-            node_id = supplier['id']
+            node_id = str(supplier['id'])
             
             # Add all supplier attributes as node properties
             self.graph.add_node(
@@ -132,8 +137,8 @@ class SupplierNetworkBuilder:
         print("Adding dependency edges...")
         
         for _, dep in self.dependencies_df.iterrows():
-            source = dep['source_id']  # Who provides
-            target = dep['target_id']  # Who receives
+            source = str(dep['source_id'])
+            target = str(dep['target_id'])
             weight = dep['dependency_weight']
             
             # Add directed edge: source → target

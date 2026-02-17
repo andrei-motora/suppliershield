@@ -2,25 +2,28 @@
 Data loading and validation for SupplierShield.
 
 This module loads CSV files and validates that they follow the correct schemas.
+Country risk is optional — the built-in baseline covers ~195 countries.
 """
 
 import pandas as pd
 from pathlib import Path
 from typing import Dict, Tuple
 
+from .baseline import load_baseline, merge_country_risk
+
 
 class DataValidator:
     """
     Validates SupplierShield data files.
-    
+
     Checks that CSV files have the correct columns, no missing values,
     and that relationships between files are valid.
     """
-    
+
     def __init__(self, data_dir: Path):
         """
         Initialize validator.
-        
+
         Args:
             data_dir: Directory containing CSV files (e.g., data/raw)
         """
@@ -29,28 +32,39 @@ class DataValidator:
         self.dependencies = None
         self.country_risk = None
         self.product_bom = None
-    
+
     def load_all(self) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
         """
-        Load all CSV files.
-        
+        Load all CSV files. Country risk is optional — if not present,
+        the built-in baseline is used. If present, user data overrides
+        matching countries and the baseline fills the rest.
+
         Returns:
             Tuple of (suppliers, dependencies, country_risk, product_bom) DataFrames
         """
         print("Loading data files...")
-        
+
         self.suppliers = pd.read_csv(self.data_dir / 'suppliers.csv')
         print(f"[OK] Loaded {len(self.suppliers)} suppliers")
 
         self.dependencies = pd.read_csv(self.data_dir / 'dependencies.csv')
         print(f"[OK] Loaded {len(self.dependencies)} dependencies")
 
-        self.country_risk = pd.read_csv(self.data_dir / 'country_risk.csv')
-        print(f"[OK] Loaded {len(self.country_risk)} countries")
+        # Country risk: optional — merge with baseline
+        baseline_df = load_baseline()
+        country_risk_path = self.data_dir / 'country_risk.csv'
+        if country_risk_path.exists():
+            user_country_risk = pd.read_csv(country_risk_path)
+            print(f"[OK] Loaded {len(user_country_risk)} user country overrides")
+            self.country_risk = merge_country_risk(baseline_df, user_country_risk)
+            print(f"[OK] Merged to {len(self.country_risk)} countries (baseline + overrides)")
+        else:
+            self.country_risk = baseline_df
+            print(f"[OK] Using built-in baseline: {len(self.country_risk)} countries")
 
         self.product_bom = pd.read_csv(self.data_dir / 'product_bom.csv')
         print(f"[OK] Loaded {len(self.product_bom)} products")
-        
+
         return self.suppliers, self.dependencies, self.country_risk, self.product_bom
     
     def validate_all(self) -> bool:
@@ -134,7 +148,7 @@ class DataValidator:
         """Check that all dependency edges reference valid supplier IDs."""
         print("\nCheck 3: Valid dependency edges...")
         
-        supplier_ids = set(self.suppliers['id'])
+        supplier_ids = set(str(sid) for sid in self.suppliers['id'])
         source_ids = set(self.dependencies['source_id'])
         target_ids = set(self.dependencies['target_id'])
         
@@ -171,13 +185,13 @@ class DataValidator:
         """Check that all supplier IDs in product BOMs are valid."""
         print("\nCheck 5: Valid product BOM supplier IDs...")
         
-        supplier_ids = set(self.suppliers['id'])
+        supplier_ids = set(str(sid) for sid in self.suppliers['id'])
         
         all_valid = True
         for _, product in self.product_bom.iterrows():
             # Split comma-separated supplier IDs
-            bom_supplier_ids = product['component_supplier_ids'].split(',')
-            
+            bom_supplier_ids = [sid.strip() for sid in product['component_supplier_ids'].split(',')]
+
             for sid in bom_supplier_ids:
                 if sid not in supplier_ids:
                     print(f"  [FAIL] Product {product['product_id']} references invalid supplier: {sid}")

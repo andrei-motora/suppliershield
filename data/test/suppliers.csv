@@ -1,0 +1,9 @@
+id,name,tier,component,country,country_code,region,contract_value_eur_m,lead_time_days,financial_health,past_disruptions,has_backup
+1,Acme Steel,1,Steel Frames,Germany,DE,Europe,45.0,14,82,1,True
+2,Pacific Chips,1,Microchips,Taiwan,TW,Asia,60.0,21,75,3,False
+3,Baltic Plastics,2,Plastic Casings,Poland,PL,Europe,12.0,10,90,0,True
+4,Sahara Minerals,2,Raw Minerals,Morocco,MA,Africa,8.0,30,65,2,False
+5,Rhine Logistics,3,Packaging,Germany,DE,Europe,5.0,7,88,0,True
+6,Shenzhen Boards,2,Circuit Boards,China,CN,Asia,35.0,25,70,4,False
+7,Nordic Sensors,1,Sensors,Sweden,SE,Europe,28.0,18,85,1,True
+8,Delta Rubber,3,Rubber Seals,India,IN,Asia,3.0,20,60,2,False

@@ -41,7 +41,7 @@ class BOMImpactTracer:
         
         for _, product in self.product_bom_df.iterrows():
             product_id = product['product_id']
-            supplier_ids = product['component_supplier_ids'].split(',')
+            supplier_ids = [sid.strip() for sid in product['component_supplier_ids'].split(',')]
             
             self.product_supplier_map[product_id] = {
                 'name': product['product_name'],

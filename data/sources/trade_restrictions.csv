@@ -1,0 +1,195 @@
+country_code,country_name,trade_restriction_count
+AF,Afghanistan,85
+AL,Albania,180
+DZ,Algeria,420
+AD,Andorra,60
+AO,Angola,150
+AG,Antigua and Barbuda,55
+AR,Argentina,750
+AM,Armenia,120
+AU,Australia,350
+AT,Austria,280
+AZ,Azerbaijan,200
+BS,Bahamas,45
+BH,Bahrain,110
+BD,Bangladesh,380
+BB,Barbados,50
+BY,Belarus,280
+BE,Belgium,310
+BZ,Belize,55
+BJ,Benin,90
+BT,Bhutan,65
+BO,Bolivia,180
+BA,Bosnia and Herzegovina,130
+BW,Botswana,70
+BR,Brazil,650
+BN,Brunei,85
+BG,Bulgaria,230
+BF,Burkina Faso,75
+BI,Burundi,60
+CV,Cabo Verde,40
+KH,Cambodia,120
+CM,Cameroon,130
+CA,Canada,420
+CF,Central African Republic,45
+TD,Chad,55
+CL,Chile,200
+CN,China,850
+CO,Colombia,310
+KM,Comoros,35
+CG,Congo,80
+CD,Congo (Democratic Republic),95
+CR,Costa Rica,160
+CI,Cote d'Ivoire,130
+HR,Croatia,210
+CU,Cuba,180
+CY,Cyprus,150
+CZ,Czechia,260
+DK,Denmark,290
+DJ,Djibouti,50
+DM,Dominica,35
+DO,Dominican Republic,190
+EC,Ecuador,250
+EG,Egypt,420
+SV,El Salvador,130
+GQ,Equatorial Guinea,45
+ER,Eritrea,70
+EE,Estonia,190
+SZ,Eswatini,65
+ET,Ethiopia,220
+FJ,Fiji,75
+FI,Finland,270
+FR,France,480
+GA,Gabon,85
+GM,Gambia,50
+GE,Georgia,110
+DE,Germany,520
+GH,Ghana,150
+GR,Greece,280
+GD,Grenada,35
+GT,Guatemala,160
+GN,Guinea,80
+GW,Guinea-Bissau,40
+GY,Guyana,55
+HT,Haiti,65
+HN,Honduras,140
+HU,Hungary,290
+IS,Iceland,120
+IN,India,1200
+ID,Indonesia,680
+IR,Iran,380
+IQ,Iraq,170
+IE,Ireland,240
+IL,Israel,300
+IT,Italy,420
+JM,Jamaica,110
+JP,Japan,450
+JO,Jordan,160
+KZ,Kazakhstan,280
+KE,Kenya,210
+KI,Kiribati,25
+KP,North Korea,95
+KR,South Korea,480
+KW,Kuwait,130
+KG,Kyrgyzstan,140
+LA,Laos,100
+LV,Latvia,200
+LB,Lebanon,170
+LS,Lesotho,50
+LR,Liberia,55
+LY,Libya,110
+LI,Liechtenstein,50
+LT,Lithuania,210
+LU,Luxembourg,180
+MG,Madagascar,85
+MW,Malawi,80
+MY,Malaysia,350
+MV,Maldives,65
+ML,Mali,75
+MT,Malta,130
+MH,Marshall Islands,25
+MR,Mauritania,80
+MU,Mauritius,100
+MX,Mexico,520
+FM,Micronesia,25
+MD,Moldova,140
+MC,Monaco,55
+MN,Mongolia,110
+ME,Montenegro,120
+MA,Morocco,250
+MZ,Mozambique,110
+MM,Myanmar,180
+NA,Namibia,85
+NR,Nauru,20
+NP,Nepal,130
+NL,Netherlands,360
+NZ,New Zealand,200
+NI,Nicaragua,120
+NE,Niger,65
+NG,Nigeria,350
+MK,North Macedonia,140
+NO,Norway,280
+OM,Oman,120
+PK,Pakistan,450
+PW,Palau,20
+PA,Panama,140
+PG,Papua New Guinea,80
+PY,Paraguay,150
+PE,Peru,280
+PH,Philippines,380
+PL,Poland,340
+PT,Portugal,260
+QA,Qatar,110
+RO,Romania,260
+RU,Russia,900
+RW,Rwanda,80
+KN,Saint Kitts and Nevis,30
+LC,Saint Lucia,35
+VC,Saint Vincent and the Grenadines,30
+WS,Samoa,35
+SM,San Marino,55
+ST,Sao Tome and Principe,30
+SA,Saudi Arabia,320
+SN,Senegal,120
+RS,Serbia,200
+SC,Seychelles,45
+SL,Sierra Leone,70
+SG,Singapore,150
+SK,Slovakia,230
+SI,Slovenia,210
+SB,Solomon Islands,35
+SO,Somalia,60
+ZA,South Africa,380
+SS,South Sudan,55
+ES,Spain,380
+LK,Sri Lanka,220
+SD,Sudan,140
+SR,Suriname,60
+SE,Sweden,300
+CH,Switzerland,280
+SY,Syria,130
+TW,Taiwan,350
+TJ,Tajikistan,110
+TZ,Tanzania,160
+TH,Thailand,420
+TL,Timor-Leste,50
+TG,Togo,75
+TO,Tonga,30
+TT,Trinidad and Tobago,100
+TN,Tunisia,210
+TR,Turkey,550
+TM,Turkmenistan,100
+TV,Tuvalu,20
+UG,Uganda,150
+UA,Ukraine,310
+AE,United Arab Emirates,220
+GB,United Kingdom,430
+US,United States,600
+UY,Uruguay,180
+UZ,Uzbekistan,160
+VU,Vanuatu,30
+VE,Venezuela,350
+VN,Vietnam,320
+YE,Yemen,80
+ZM,Zambia,110
+ZW,Zimbabwe,140

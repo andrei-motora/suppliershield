@@ -1,0 +1,195 @@
+country_code,country_name,lpi_score
+AF,Afghanistan,1.95
+AL,Albania,2.60
+DZ,Algeria,2.40
+AD,Andorra,3.20
+AO,Angola,2.25
+AG,Antigua and Barbuda,2.50
+AR,Argentina,2.80
+AM,Armenia,2.55
+AU,Australia,3.75
+AT,Austria,4.05
+AZ,Azerbaijan,2.55
+BS,Bahamas,2.80
+BH,Bahrain,3.15
+BD,Bangladesh,2.55
+BB,Barbados,2.70
+BY,Belarus,2.60
+BE,Belgium,4.05
+BZ,Belize,2.45
+BJ,Benin,2.40
+BT,Bhutan,2.50
+BO,Bolivia,2.50
+BA,Bosnia and Herzegovina,2.60
+BW,Botswana,2.75
+BR,Brazil,2.90
+BN,Brunei,2.80
+BG,Bulgaria,2.80
+BF,Burkina Faso,2.30
+BI,Burundi,1.90
+CV,Cabo Verde,2.45
+KH,Cambodia,2.60
+CM,Cameroon,2.35
+CA,Canada,3.75
+CF,Central African Republic,1.80
+TD,Chad,1.90
+CL,Chile,3.30
+CN,China,3.60
+CO,Colombia,2.95
+KM,Comoros,2.10
+CG,Congo,2.20
+CD,Congo (Democratic Republic),2.00
+CR,Costa Rica,2.85
+CI,Cote d'Ivoire,2.55
+HR,Croatia,3.10
+CU,Cuba,2.35
+CY,Cyprus,3.15
+CZ,Czechia,3.65
+DK,Denmark,3.90
+DJ,Djibouti,2.30
+DM,Dominica,2.50
+DO,Dominican Republic,2.70
+EC,Ecuador,2.70
+EG,Egypt,2.80
+SV,El Salvador,2.55
+GQ,Equatorial Guinea,2.00
+ER,Eritrea,1.85
+EE,Estonia,3.30
+SZ,Eswatini,2.40
+ET,Ethiopia,2.40
+FJ,Fiji,2.55
+FI,Finland,3.95
+FR,France,3.85
+GA,Gabon,2.25
+GM,Gambia,2.25
+GE,Georgia,2.75
+DE,Germany,4.20
+GH,Ghana,2.55
+GR,Greece,3.20
+GD,Grenada,2.50
+GT,Guatemala,2.55
+GN,Guinea,2.15
+GW,Guinea-Bissau,1.95
+GY,Guyana,2.40
+HT,Haiti,1.80
+HN,Honduras,2.50
+HU,Hungary,3.40
+IS,Iceland,3.25
+IN,India,3.20
+ID,Indonesia,3.15
+IR,Iran,2.65
+IQ,Iraq,2.15
+IE,Ireland,3.60
+IL,Israel,3.40
+IT,Italy,3.60
+JM,Jamaica,2.55
+JP,Japan,4.05
+JO,Jordan,2.75
+KZ,Kazakhstan,2.75
+KE,Kenya,2.80
+KI,Kiribati,2.10
+KP,North Korea,1.70
+KR,South Korea,3.70
+KW,Kuwait,2.90
+KG,Kyrgyzstan,2.40
+LA,Laos,2.45
+LV,Latvia,3.20
+LB,Lebanon,2.60
+LS,Lesotho,2.25
+LR,Liberia,2.10
+LY,Libya,2.00
+LI,Liechtenstein,3.80
+LT,Lithuania,3.35
+LU,Luxembourg,3.85
+MG,Madagascar,2.25
+MW,Malawi,2.30
+MY,Malaysia,3.45
+MV,Maldives,2.55
+ML,Mali,2.20
+MT,Malta,3.10
+MH,Marshall Islands,2.20
+MR,Mauritania,2.25
+MU,Mauritius,2.85
+MX,Mexico,3.05
+FM,Micronesia,2.20
+MD,Moldova,2.55
+MC,Monaco,3.50
+MN,Mongolia,2.50
+ME,Montenegro,2.75
+MA,Morocco,2.70
+MZ,Mozambique,2.35
+MM,Myanmar,2.30
+NA,Namibia,2.65
+NR,Nauru,2.15
+NP,Nepal,2.35
+NL,Netherlands,4.10
+NZ,New Zealand,3.65
+NI,Nicaragua,2.50
+NE,Niger,2.15
+NG,Nigeria,2.50
+MK,North Macedonia,2.65
+NO,Norway,3.70
+OM,Oman,3.00
+PK,Pakistan,2.55
+PW,Palau,2.25
+PA,Panama,3.15
+PG,Papua New Guinea,2.30
+PY,Paraguay,2.55
+PE,Peru,2.75
+PH,Philippines,2.90
+PL,Poland,3.55
+PT,Portugal,3.45
+QA,Qatar,3.30
+RO,Romania,3.10
+RU,Russia,2.75
+RW,Rwanda,2.70
+KN,Saint Kitts and Nevis,2.55
+LC,Saint Lucia,2.50
+VC,Saint Vincent and the Grenadines,2.45
+WS,Samoa,2.40
+SM,San Marino,3.20
+ST,Sao Tome and Principe,2.15
+SA,Saudi Arabia,3.15
+SN,Senegal,2.60
+RS,Serbia,2.80
+SC,Seychelles,2.60
+SL,Sierra Leone,2.10
+SG,Singapore,4.00
+SK,Slovakia,3.30
+SI,Slovenia,3.25
+SB,Solomon Islands,2.20
+SO,Somalia,1.65
+ZA,South Africa,3.20
+SS,South Sudan,1.60
+ES,Spain,3.60
+LK,Sri Lanka,2.75
+SD,Sudan,2.00
+SR,Suriname,2.40
+SE,Sweden,4.00
+CH,Switzerland,4.00
+SY,Syria,1.75
+TW,Taiwan,3.65
+TJ,Tajikistan,2.35
+TZ,Tanzania,2.55
+TH,Thailand,3.30
+TL,Timor-Leste,2.20
+TG,Togo,2.35
+TO,Tonga,2.30
+TT,Trinidad and Tobago,2.70
+TN,Tunisia,2.65
+TR,Turkey,3.15
+TM,Turkmenistan,2.30
+TV,Tuvalu,2.10
+UG,Uganda,2.50
+UA,Ukraine,2.55
+AE,United Arab Emirates,3.65
+GB,United Kingdom,3.85
+US,United States,3.80
+UY,Uruguay,2.80
+UZ,Uzbekistan,2.55
+VU,Vanuatu,2.30
+VE,Venezuela,2.10
+VN,Vietnam,3.00
+YE,Yemen,1.70
+ZM,Zambia,2.40
+ZW,Zimbabwe,2.30

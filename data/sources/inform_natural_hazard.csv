@@ -1,0 +1,195 @@
+country_code,country_name,inform_natural_hazard
+AF,Afghanistan,6.5
+AL,Albania,3.8
+DZ,Algeria,4.2
+AD,Andorra,1.2
+AO,Angola,3.0
+AG,Antigua and Barbuda,4.5
+AR,Argentina,3.5
+AM,Armenia,4.0
+AU,Australia,5.2
+AT,Austria,2.5
+AZ,Azerbaijan,3.8
+BS,Bahamas,5.0
+BH,Bahrain,1.0
+BD,Bangladesh,7.5
+BB,Barbados,4.2
+BY,Belarus,1.2
+BE,Belgium,1.8
+BZ,Belize,5.0
+BJ,Benin,2.5
+BT,Bhutan,4.5
+BO,Bolivia,4.0
+BA,Bosnia and Herzegovina,3.2
+BW,Botswana,2.0
+BR,Brazil,4.5
+BN,Brunei,2.5
+BG,Bulgaria,3.5
+BF,Burkina Faso,2.8
+BI,Burundi,3.0
+CV,Cabo Verde,2.5
+KH,Cambodia,5.5
+CM,Cameroon,3.2
+CA,Canada,3.5
+CF,Central African Republic,2.5
+TD,Chad,3.5
+CL,Chile,7.0
+CN,China,6.8
+CO,Colombia,5.5
+KM,Comoros,4.0
+CG,Congo,2.8
+CD,Congo (Democratic Republic),4.0
+CR,Costa Rica,5.8
+CI,Cote d'Ivoire,2.2
+HR,Croatia,3.0
+CU,Cuba,5.5
+CY,Cyprus,2.5
+CZ,Czechia,2.0
+DK,Denmark,1.5
+DJ,Djibouti,3.5
+DM,Dominica,5.5
+DO,Dominican Republic,5.8
+EC,Ecuador,5.5
+EG,Egypt,2.8
+SV,El Salvador,6.5
+GQ,Equatorial Guinea,2.0
+ER,Eritrea,4.0
+EE,Estonia,1.0
+SZ,Eswatini,2.5
+ET,Ethiopia,5.0
+FJ,Fiji,6.5
+FI,Finland,1.0
+FR,France,3.0
+GA,Gabon,1.8
+GM,Gambia,2.5
+GE,Georgia,4.2
+DE,Germany,2.2
+GH,Ghana,2.5
+GR,Greece,4.5
+GD,Grenada,4.8
+GT,Guatemala,7.0
+GN,Guinea,3.0
+GW,Guinea-Bissau,2.8
+GY,Guyana,3.5
+HT,Haiti,7.0
+HN,Honduras,6.0
+HU,Hungary,2.2
+IS,Iceland,5.5
+IN,India,6.5
+ID,Indonesia,7.8
+IR,Iran,6.0
+IQ,Iraq,4.0
+IE,Ireland,1.5
+IL,Israel,3.0
+IT,Italy,4.5
+JM,Jamaica,5.5
+JP,Japan,7.5
+JO,Jordan,2.5
+KZ,Kazakhstan,3.5
+KE,Kenya,4.5
+KI,Kiribati,4.0
+KP,North Korea,5.0
+KR,South Korea,4.0
+KW,Kuwait,1.5
+KG,Kyrgyzstan,4.5
+LA,Laos,5.0
+LV,Latvia,1.2
+LB,Lebanon,3.5
+LS,Lesotho,2.8
+LR,Liberia,2.5
+LY,Libya,2.5
+LI,Liechtenstein,1.5
+LT,Lithuania,1.2
+LU,Luxembourg,1.2
+MG,Madagascar,6.5
+MW,Malawi,4.0
+MY,Malaysia,4.5
+MV,Maldives,4.5
+ML,Mali,3.5
+MT,Malta,1.8
+MH,Marshall Islands,4.5
+MR,Mauritania,3.0
+MU,Mauritius,4.5
+MX,Mexico,6.5
+FM,Micronesia,5.5
+MD,Moldova,2.0
+MC,Monaco,1.5
+MN,Mongolia,3.5
+ME,Montenegro,3.0
+MA,Morocco,3.8
+MZ,Mozambique,5.5
+MM,Myanmar,7.0
+NA,Namibia,2.5
+NR,Nauru,3.0
+NP,Nepal,6.5
+NL,Netherlands,2.0
+NZ,New Zealand,6.0
+NI,Nicaragua,6.0
+NE,Niger,4.0
+NG,Nigeria,3.5
+MK,North Macedonia,3.5
+NO,Norway,1.5
+OM,Oman,2.5
+PK,Pakistan,6.5
+PW,Palau,4.5
+PA,Panama,4.5
+PG,Papua New Guinea,7.5
+PY,Paraguay,3.5
+PE,Peru,6.5
+PH,Philippines,8.0
+PL,Poland,2.0
+PT,Portugal,3.0
+QA,Qatar,1.0
+RO,Romania,3.5
+RU,Russia,3.8
+RW,Rwanda,3.0
+KN,Saint Kitts and Nevis,4.5
+LC,Saint Lucia,5.0
+VC,Saint Vincent and the Grenadines,5.0
+WS,Samoa,6.5
+SM,San Marino,2.0
+ST,Sao Tome and Principe,2.0
+SA,Saudi Arabia,2.0
+SN,Senegal,2.8
+RS,Serbia,3.0
+SC,Seychelles,3.5
+SL,Sierra Leone,3.0
+SG,Singapore,1.5
+SK,Slovakia,2.5
+SI,Slovenia,3.0
+SB,Solomon Islands,7.0
+SO,Somalia,5.0
+ZA,South Africa,3.5
+SS,South Sudan,3.5
+ES,Spain,3.5
+LK,Sri Lanka,5.5
+SD,Sudan,4.5
+SR,Suriname,3.0
+SE,Sweden,1.2
+CH,Switzerland,2.5
+SY,Syria,4.0
+TW,Taiwan,7.0
+TJ,Tajikistan,5.0
+TZ,Tanzania,4.5
+TH,Thailand,5.5
+TL,Timor-Leste,5.0
+TG,Togo,2.5
+TO,Tonga,6.5
+TT,Trinidad and Tobago,4.0
+TN,Tunisia,3.0
+TR,Turkey,5.5
+TM,Turkmenistan,4.5
+TV,Tuvalu,4.5
+UG,Uganda,3.5
+UA,Ukraine,3.0
+AE,United Arab Emirates,1.5
+GB,United Kingdom,2.0
+US,United States,5.0
+UY,Uruguay,2.5
+UZ,Uzbekistan,4.0
+VU,Vanuatu,7.5
+VE,Venezuela,4.0
+VN,Vietnam,6.5
+YE,Yemen,5.0
+ZM,Zambia,3.0
+ZW,Zimbabwe,3.0

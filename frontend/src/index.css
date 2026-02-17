@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0e1a;
+}
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* Table styling */
+table {
+  @apply w-full text-sm;
+}
+thead {
+  @apply sticky top-0 z-10;
+}
+th {
+  @apply px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-shield-muted bg-shield-surface border-b border-shield-border select-none;
+}
+th[data-sortable] {
+  @apply cursor-pointer hover:text-shield-text transition-colors;
+}
+td {
+  @apply px-4 py-3 border-b border-white/5;
+}
+/* Alternating row backgrounds */
+tbody tr:nth-child(even) td {
+  @apply bg-white/[0.01];
+}
+tbody tr:hover td {
+  @apply bg-white/[0.03];
+}
+/* Critical row highlight */
+tbody tr[data-critical="true"] td {
+  @apply bg-risk-critical/[0.04];
+}
+tbody tr[data-critical="true"] td:first-child {
+  box-shadow: inset 3px 0 0 0 #ef4444;
+}
+/* Tabular nums for data cells */
+td.num {
+  @apply font-mono tabular-nums;
+}
+
+/* Globe filter range sliders */
+input[type="range"].globe-slider {
+  appearance: none;
+  -webkit-appearance: none;
+  height: 4px;
+  background: #1e293b;
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+input[type="range"].globe-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #f97316;
+  border: 2px solid #0a0e1a;
+  cursor: pointer;
+}
+input[type="range"].globe-slider::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #f97316;
+  border: 2px solid #0a0e1a;
+  cursor: pointer;
+}
+
+/* Country detail panel slide-in */
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}

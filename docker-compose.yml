@@ -1,0 +1,39 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+      - upload-data:/tmp/suppliershield
+    environment:
+      - PYTHONUNBUFFERED=1
+      - PYTHONPATH=/app
+      - CORS_ORIGINS=http://localhost:5173,http://localhost:3000
+      - SECRET_KEY=${SECRET_KEY:-change-me-in-production}
+      - MAX_SESSIONS=${MAX_SESSIONS:-100}
+      - SESSION_TTL=${SESSION_TTL:-7200}
+      - UPLOAD_DIR=/tmp/suppliershield/sessions
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 60s
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    ports:
+      - "3000:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  upload-data:

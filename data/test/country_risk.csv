@@ -1,0 +1,8 @@
+country,country_code,political_stability,natural_disaster_freq,trade_restriction_risk,logistics_performance
+Germany,DE,90,15,10,92
+Taiwan,TW,65,45,35,80
+Poland,PL,75,20,15,78
+Morocco,MA,55,30,25,60
+China,CN,50,35,40,75
+Sweden,SE,92,10,8,90
+India,IN,45,50,30,55
