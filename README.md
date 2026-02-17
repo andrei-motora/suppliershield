@@ -10,9 +10,6 @@
 
 ---
 
- ![Demo](Demo)
-
----
 ## The Problem
 
 Most companies know their Tier-1 suppliers by name. They've negotiated contracts, visited factories, run audits. But ask them who supplies *those* suppliers — the component makers in Southeast Asia, the raw material extractors in Central Africa — and you get silence. This is the Tier-2 and Tier-3 blind spot, and it's where supply chains actually break.
