@@ -8,7 +8,7 @@
 
 > *What if the safest supplier in your network is actually your biggest risk?*
 
-https://github.com/user-attachments/assets/151cb38d-4139-47c4-8ebd-60aa5f03078e
+![Demo](https://github.com/user-attachments/assets/fa948e05-ff54-4a87-aa60-ffa19163d7c3)
 
 ---
 
