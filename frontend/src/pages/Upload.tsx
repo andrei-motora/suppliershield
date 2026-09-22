@@ -1,5 +1,6 @@
 import { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 import { Shield, Database, Upload as UploadIcon, Loader2, AlertCircle, Globe } from "lucide-react";
 import FileDropZone from "../components/FileDropZone";
 import { uploadFile, finalizeUpload, loadDemoData } from "../api/client";
@@ -54,6 +55,7 @@ type Step = "welcome" | "upload" | "processing";
 
 export default function Upload() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [step, setStep] = useState<Step>("welcome");
   const [files, setFiles] = useState<Record<string, FileState>>({
     suppliers: { status: "idle" },
@@ -111,6 +113,7 @@ export default function Upload() {
     try {
       const result = await finalizeUpload();
       if (result.status === "success") {
+        queryClient.removeQueries();
         navigate("/");
       } else {
         setFinalizeErrors(result.errors);
@@ -120,7 +123,7 @@ export default function Upload() {
       setGlobalError(e instanceof Error ? e.message : "Processing failed");
       setProcessing(false);
     }
-  }, [navigate]);
+  }, [navigate, queryClient]);
 
   const handleDemoLoad = useCallback(async () => {
     setDemoLoading(true);
@@ -129,6 +132,7 @@ export default function Upload() {
     try {
       const result = await loadDemoData();
       if (result.status === "success") {
+        queryClient.removeQueries();
         navigate("/");
       } else {
         setGlobalError("Failed to load demo data");
@@ -138,7 +142,7 @@ export default function Upload() {
       setGlobalError(e instanceof Error ? e.message : "Failed to load demo data");
       setDemoLoading(false);
     }
-  }, [navigate]);
+  }, [navigate, queryClient]);
 
   // ── Step 1: Welcome ──
   if (step === "welcome") {

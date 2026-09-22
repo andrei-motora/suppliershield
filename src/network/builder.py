@@ -47,7 +47,44 @@ class SupplierNetworkBuilder:
         self.suppliers_df['id'] = self.suppliers_df['id'].astype(str)
         self.dependencies_df['source_id'] = self.dependencies_df['source_id'].astype(str)
         self.dependencies_df['target_id'] = self.dependencies_df['target_id'].astype(str)
-        
+
+        # Normalize tier to int (CSV may deliver strings like '2')
+        self.suppliers_df['tier'] = (
+            pd.to_numeric(self.suppliers_df['tier'], errors='coerce')
+            .fillna(1)
+            .astype(int)
+        )
+
+        # Normalize has_backup to bool (CSV may deliver 'yes'/'no'/'true'/'false')
+        self.suppliers_df['has_backup'] = (
+            self.suppliers_df['has_backup'].apply(self._coerce_bool)
+        )
+
+        # Normalize country_code to ISO alpha-2 (user CSVs may contain 3-letter codes)
+        if 'country_code' in self.suppliers_df.columns:
+            self.suppliers_df['country_code'] = (
+                self.suppliers_df['country_code']
+                .astype(str)
+                .str.strip()
+                .str.upper()
+                .map(lambda c: self._normalize_country_code(c))
+            )
+
+        # Normalize numeric columns
+        if 'contract_value_eur_m' in self.suppliers_df.columns:
+            self.suppliers_df['contract_value_eur_m'] = (
+                pd.to_numeric(self.suppliers_df['contract_value_eur_m'], errors='coerce')
+                .fillna(0.0)
+                .astype(float)
+            )
+        for int_col in ('financial_health', 'lead_time_days', 'past_disruptions'):
+            if int_col in self.suppliers_df.columns:
+                self.suppliers_df[int_col] = (
+                    pd.to_numeric(self.suppliers_df[int_col], errors='coerce')
+                    .fillna(0)
+                    .astype(int)
+                )
+
         print(f"Loaded {len(suppliers_df)} suppliers")
         print(f"Loaded {len(dependencies_df)} dependencies")
         print(f"Loaded {len(country_risk_df)} countries")
@@ -173,6 +210,77 @@ class SupplierNetworkBuilder:
         print(f"  • Average outgoing connections: {avg_out_degree:.2f}")
         print(f"  • Average incoming connections: {avg_in_degree:.2f}")
     
+    @staticmethod
+    def _coerce_bool(value) -> bool:
+        """Convert various truthy/falsy representations to Python bool."""
+        if isinstance(value, bool):
+            return value
+        if isinstance(value, (int, float)):
+            return bool(value)
+        if isinstance(value, str):
+            return value.strip().lower() in ('true', 'yes', '1')
+        return False
+
+    # ISO 3166-1 alpha-3 → alpha-2 mapping (covers all 195+ sovereign states)
+    _ISO3_TO_ISO2: Dict[str, str] = {
+        "AFG": "AF", "ALB": "AL", "DZA": "DZ", "AND": "AD", "AGO": "AO",
+        "ATG": "AG", "ARG": "AR", "ARM": "AM", "AUS": "AU", "AUT": "AT",
+        "AZE": "AZ", "BHS": "BS", "BHR": "BH", "BGD": "BD", "BRB": "BB",
+        "BLR": "BY", "BEL": "BE", "BLZ": "BZ", "BEN": "BJ", "BTN": "BT",
+        "BOL": "BO", "BIH": "BA", "BWA": "BW", "BRA": "BR", "BRN": "BN",
+        "BGR": "BG", "BFA": "BF", "BDI": "BI", "CPV": "CV", "KHM": "KH",
+        "CMR": "CM", "CAN": "CA", "CAF": "CF", "TCD": "TD", "CHL": "CL",
+        "CHN": "CN", "COL": "CO", "COM": "KM", "COG": "CG", "COD": "CD",
+        "CRI": "CR", "CIV": "CI", "HRV": "HR", "CUB": "CU", "CYP": "CY",
+        "CZE": "CZ", "DNK": "DK", "DJI": "DJ", "DMA": "DM", "DOM": "DO",
+        "ECU": "EC", "EGY": "EG", "SLV": "SV", "GNQ": "GQ", "ERI": "ER",
+        "EST": "EE", "SWZ": "SZ", "ETH": "ET", "FJI": "FJ", "FIN": "FI",
+        "FRA": "FR", "GAB": "GA", "GMB": "GM", "GEO": "GE", "DEU": "DE",
+        "GHA": "GH", "GRC": "GR", "GRD": "GD", "GTM": "GT", "GIN": "GN",
+        "GNB": "GW", "GUY": "GY", "HTI": "HT", "HND": "HN", "HUN": "HU",
+        "ISL": "IS", "IND": "IN", "IDN": "ID", "IRN": "IR", "IRQ": "IQ",
+        "IRL": "IE", "ISR": "IL", "ITA": "IT", "JAM": "JM", "JPN": "JP",
+        "JOR": "JO", "KAZ": "KZ", "KEN": "KE", "KIR": "KI", "PRK": "KP",
+        "KOR": "KR", "KWT": "KW", "KGZ": "KG", "LAO": "LA", "LVA": "LV",
+        "LBN": "LB", "LSO": "LS", "LBR": "LR", "LBY": "LY", "LIE": "LI",
+        "LTU": "LT", "LUX": "LU", "MDG": "MG", "MWI": "MW", "MYS": "MY",
+        "MDV": "MV", "MLI": "ML", "MLT": "MT", "MHL": "MH", "MRT": "MR",
+        "MUS": "MU", "MEX": "MX", "FSM": "FM", "MDA": "MD", "MCO": "MC",
+        "MNG": "MN", "MNE": "ME", "MAR": "MA", "MOZ": "MZ", "MMR": "MM",
+        "NAM": "NA", "NRU": "NR", "NPL": "NP", "NLD": "NL", "NZL": "NZ",
+        "NIC": "NI", "NER": "NE", "NGA": "NG", "MKD": "MK", "NOR": "NO",
+        "OMN": "OM", "PAK": "PK", "PLW": "PW", "PAN": "PA", "PNG": "PG",
+        "PRY": "PY", "PER": "PE", "PHL": "PH", "POL": "PL", "PRT": "PT",
+        "QAT": "QA", "ROU": "RO", "RUS": "RU", "RWA": "RW", "KNA": "KN",
+        "LCA": "LC", "VCT": "VC", "WSM": "WS", "SMR": "SM", "STP": "ST",
+        "SAU": "SA", "SEN": "SN", "SRB": "RS", "SYC": "SC", "SLE": "SL",
+        "SGP": "SG", "SVK": "SK", "SVN": "SI", "SLB": "SB", "SOM": "SO",
+        "ZAF": "ZA", "SSD": "SS", "ESP": "ES", "LKA": "LK", "SDN": "SD",
+        "SUR": "SR", "SWE": "SE", "CHE": "CH", "SYR": "SY", "TWN": "TW",
+        "TJK": "TJ", "TZA": "TZ", "THA": "TH", "TLS": "TL", "TGO": "TG",
+        "TON": "TO", "TTO": "TT", "TUN": "TN", "TUR": "TR", "TKM": "TM",
+        "TUV": "TV", "UGA": "UG", "UKR": "UA", "ARE": "AE", "GBR": "GB",
+        "USA": "US", "URY": "UY", "UZB": "UZ", "VUT": "VU", "VEN": "VE",
+        "VNM": "VN", "YEM": "YE", "ZMB": "ZM", "ZWE": "ZW",
+        # Territories / common extras
+        "HKG": "HK", "MAC": "MO", "PSE": "PS", "XKX": "XK", "SXM": "SX",
+        "CUW": "CW", "ABW": "AW", "PRI": "PR", "GUM": "GU", "ASM": "AS",
+    }
+
+    @classmethod
+    def _normalize_country_code(cls, code: str) -> str:
+        """Normalize a country code to ISO alpha-2.
+
+        If the code is already 2 letters, return it as-is (uppercase).
+        If it's a 3-letter ISO code, convert to alpha-2 via lookup.
+        Otherwise return the original value unchanged.
+        """
+        if len(code) == 2:
+            return code
+        if len(code) == 3:
+            return cls._ISO3_TO_ISO2.get(code, code)
+        return code
+
     def get_tier_suppliers(self, tier: int) -> List[str]:
         """
         Get all supplier IDs for a specific tier.

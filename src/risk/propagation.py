@@ -34,40 +34,36 @@ class RiskPropagator:
     def propagate_all_risks(self) -> Dict[str, float]:
         """
         Propagate risk through all tiers of the network.
-        
+
         Returns:
             Dictionary mapping supplier_id to propagated risk score
         """
         print("\n" + "="*60)
         print("PROPAGATING RISK THROUGH NETWORK")
         print("="*60 + "\n")
-        
-        # Step 1: Get suppliers by tier
-        tier_1 = [n for n in self.graph.nodes() if self.graph.nodes[n]['tier'] == 1]
-        tier_2 = [n for n in self.graph.nodes() if self.graph.nodes[n]['tier'] == 2]
-        tier_3 = [n for n in self.graph.nodes() if self.graph.nodes[n]['tier'] == 3]
-        
-        print(f"Processing {len(tier_3)} Tier-3 suppliers...")
-        # Step 2: Tier-3 has no dependencies (they're at the bottom)
-        for node_id in tier_3:
-            composite_risk = self.graph.nodes[node_id]['risk_composite']
-            self.propagated_risks[node_id] = composite_risk
-        
-        print(f"[OK] Tier-3 propagated risks set (same as composite)")
-        
-        # Step 3: Propagate to Tier-2
-        print(f"\nProcessing {len(tier_2)} Tier-2 suppliers...")
-        for node_id in tier_2:
-            self.propagated_risks[node_id] = self._propagate_node_risk(node_id)
-        
-        print(f"[OK] Tier-2 risks propagated")
-        
-        # Step 4: Propagate to Tier-1
-        print(f"\nProcessing {len(tier_1)} Tier-1 suppliers...")
-        for node_id in tier_1:
-            self.propagated_risks[node_id] = self._propagate_node_risk(node_id)
-        
-        print(f"[OK] Tier-1 risks propagated")
+
+        # Use topological sort to ensure predecessors are always processed
+        # before the nodes that depend on them (handles any tier structure)
+        try:
+            processing_order = list(nx.topological_sort(self.graph))
+        except nx.NetworkXUnfeasible:
+            # Cyclic graph — fall back to tier-based ordering (highest tier first)
+            processing_order = sorted(
+                self.graph.nodes(),
+                key=lambda n: self.graph.nodes[n].get('tier', 1),
+                reverse=True,
+            )
+
+        print(f"Processing {len(processing_order)} suppliers...")
+
+        for node_id in processing_order:
+            upstream = list(self.graph.predecessors(node_id))
+            if not upstream:
+                self.propagated_risks[node_id] = self.graph.nodes[node_id]['risk_composite']
+            else:
+                self.propagated_risks[node_id] = self._propagate_node_risk(node_id)
+
+        print(f"[OK] All risks propagated")
         
         # Add propagated risks to graph nodes
         self._add_to_graph()
@@ -99,7 +95,10 @@ class RiskPropagator:
         
         # Calculate average propagated risk of upstream suppliers
         upstream_risks = [
-            self.propagated_risks[supplier_id]
+            self.propagated_risks.get(
+                supplier_id,
+                self.graph.nodes[supplier_id]['risk_composite']
+            )
             for supplier_id in upstream_suppliers
         ]
         avg_upstream_risk = np.mean(upstream_risks)
@@ -130,10 +129,10 @@ class RiskPropagator:
         increases = []
         for node_id in self.graph.nodes():
             composite = self.graph.nodes[node_id]['risk_composite']
-            propagated = self.propagated_risks[node_id]
+            propagated = self.propagated_risks.get(node_id, composite)
             increase = propagated - composite
             increases.append(increase)
-        
+
         avg_increase = np.mean(increases)
         max_increase = np.max(increases)
         
@@ -166,9 +165,9 @@ class RiskPropagator:
         
         for node_id in self.graph.nodes():
             composite = self.graph.nodes[node_id]['risk_composite']
-            propagated = self.propagated_risks[node_id]
+            propagated = self.propagated_risks.get(node_id, composite)
             increase = propagated - composite
-            
+
             increases.append((
                 node_id,
                 composite,
@@ -193,8 +192,8 @@ class RiskPropagator:
         # Find suppliers with low composite risk but high propagated risk
         for node_id in self.graph.nodes():
             composite = self.graph.nodes[node_id]['risk_composite']
-            propagated = self.propagated_risks[node_id]
-            
+            propagated = self.propagated_risks.get(node_id, composite)
+
             # Hidden vulnerability: composite is LOW/MEDIUM but propagated is HIGH/CRITICAL
             if composite < 55 and propagated >= 55:
                 increase = propagated - composite
@@ -237,9 +236,9 @@ class RiskPropagator:
             'name': self.graph.nodes[node_id]['name'],
             'tier': current_tier,
             'composite_risk': self.graph.nodes[node_id]['risk_composite'],
-            'propagated_risk': self.propagated_risks[node_id]
+            'propagated_risk': self.propagated_risks.get(node_id, self.graph.nodes[node_id]['risk_composite'])
         })
-        
+
         # Get upstream suppliers (who feeds this node)
         upstream = list(self.graph.predecessors(node_id))
         
@@ -250,7 +249,7 @@ class RiskPropagator:
                     'name': self.graph.nodes[supplier_id]['name'],
                     'tier': self.graph.nodes[supplier_id]['tier'],
                     'composite_risk': self.graph.nodes[supplier_id]['risk_composite'],
-                    'propagated_risk': self.propagated_risks[supplier_id]
+                    'propagated_risk': self.propagated_risks.get(supplier_id, self.graph.nodes[supplier_id]['risk_composite'])
                 })
         
         return path

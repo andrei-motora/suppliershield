@@ -82,15 +82,13 @@ SupplierShield isn't locked to sample data. The platform uses a **session-based 
 ```bash
 git clone https://github.com/andrei-motora/suppliershield.git
 cd suppliershield
-pip install -r requirements.txt
-python scripts/generate_data.py
 
-# Option 1: Docker (recommended)
+# One command — installs deps, generates data, launches backend + frontend
+./start.ps1      # Windows
+./start.sh       # macOS / Linux
+
+# Or, if you prefer Docker
 docker compose up --build
-
-# Option 2: Manual
-uvicorn backend.main:app --reload --port 8000
-cd frontend && npm install && npm run dev
 ```
 
 Open **http://localhost:5173** (dev) or **http://localhost** (Docker) and click **Load Demo Data** to explore.

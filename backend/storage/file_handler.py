@@ -203,7 +203,7 @@ class FileHandler:
 
         # Check 2: Tier values
         if "tier" in suppliers.columns:
-            invalid_tiers = set(suppliers["tier"].unique()) - {1, 2, 3}
+            invalid_tiers = set(int(t) for t in suppliers["tier"].unique()) - {1, 2, 3}
             if invalid_tiers:
                 errors.append(ValidationError(
                     file="suppliers", check="tier_values",
@@ -225,16 +225,17 @@ class FileHandler:
                     message=f"Target IDs not found in suppliers: {', '.join(sorted(str(s) for s in invalid_targets)[:5])}",
                 ))
 
-        # Check 4: Country consistency
+        # Check 4: Country consistency (warning only — country_risk is optional
+        # and the builder handles missing countries gracefully)
         if "country_code" in suppliers.columns and "country_code" in country_risk.columns:
             risk_countries = set(country_risk["country_code"])
             supplier_countries = set(suppliers["country_code"])
             missing = supplier_countries - risk_countries
             if missing:
-                errors.append(ValidationError(
-                    file="country_risk", check="country_coverage",
-                    message=f"Missing country risk data for: {', '.join(sorted(missing))}",
-                ))
+                logger.warning(
+                    "Missing country risk data for: %s (will use defaults)",
+                    ", ".join(sorted(missing)),
+                )
 
         # Check 5: Product BOM supplier IDs
         if "component_supplier_ids" in product_bom.columns:

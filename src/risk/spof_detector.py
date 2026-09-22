@@ -6,6 +6,7 @@ the supply chain or create severe disruptions.
 """
 
 import networkx as nx
+from collections import defaultdict
 from typing import List, Dict, Set
 import copy
 
@@ -264,7 +265,7 @@ class SPOFDetector:
             descendants = set()
         
         # Count by tier
-        tier_impact = {1: 0, 2: 0, 3: 0}
+        tier_impact = defaultdict(int)
         for desc_id in descendants:
             tier = self.graph.nodes[desc_id]['tier']
             tier_impact[tier] += 1

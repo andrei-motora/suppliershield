@@ -7,6 +7,7 @@ and revenue through the Bill of Materials.
 
 import networkx as nx
 import pandas as pd
+from collections import defaultdict
 from typing import Dict, List, Set, Tuple
 
 
@@ -296,12 +297,12 @@ class BOMImpactTracer:
         print()
         
         # Analyze by tier
-        tier_breakdown = {1: [], 2: [], 3: []}
-        
+        tier_breakdown = defaultdict(list)
+
         for supplier_id in direct_suppliers:
             if supplier_id in self.graph.nodes():
                 tier_breakdown[1].append(supplier_id)
-        
+
         for supplier_id in all_upstream:
             tier = self.graph.nodes[supplier_id]['tier']
             tier_breakdown[tier].append(supplier_id)

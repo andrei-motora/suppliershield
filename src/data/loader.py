@@ -135,8 +135,8 @@ class DataValidator:
         print("\nCheck 2: Valid tier values...")
         
         valid_tiers = {1, 2, 3}
-        actual_tiers = set(self.suppliers['tier'].unique())
-        
+        actual_tiers = set(int(t) for t in self.suppliers['tier'].unique())
+
         if actual_tiers == valid_tiers:
             print(f"  [OK] All tiers are valid: {sorted(actual_tiers)}")
             return True

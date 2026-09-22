@@ -18,6 +18,96 @@ interface GeoJSON {
   features: GeoFeature[];
 }
 
+/** Common ISO 3166-1 alpha-3 → alpha-2 mapping.
+ *  Used as a frontend fallback in case the backend hasn't normalized yet
+ *  (e.g. cached API responses from before the normalization was deployed). */
+const ISO3_TO_ISO2: Record<string, string> = {
+  AFG:"AF",ALB:"AL",DZA:"DZ",AND:"AD",AGO:"AO",ATG:"AG",ARG:"AR",ARM:"AM",
+  AUS:"AU",AUT:"AT",AZE:"AZ",BHS:"BS",BHR:"BH",BGD:"BD",BRB:"BB",BLR:"BY",
+  BEL:"BE",BLZ:"BZ",BEN:"BJ",BTN:"BT",BOL:"BO",BIH:"BA",BWA:"BW",BRA:"BR",
+  BRN:"BN",BGR:"BG",BFA:"BF",BDI:"BI",CPV:"CV",KHM:"KH",CMR:"CM",CAN:"CA",
+  CAF:"CF",TCD:"TD",CHL:"CL",CHN:"CN",COL:"CO",COM:"KM",COG:"CG",COD:"CD",
+  CRI:"CR",CIV:"CI",HRV:"HR",CUB:"CU",CYP:"CY",CZE:"CZ",DNK:"DK",DJI:"DJ",
+  DMA:"DM",DOM:"DO",ECU:"EC",EGY:"EG",SLV:"SV",GNQ:"GQ",ERI:"ER",EST:"EE",
+  SWZ:"SZ",ETH:"ET",FJI:"FJ",FIN:"FI",FRA:"FR",GAB:"GA",GMB:"GM",GEO:"GE",
+  DEU:"DE",GHA:"GH",GRC:"GR",GRD:"GD",GTM:"GT",GIN:"GN",GNB:"GW",GUY:"GY",
+  HTI:"HT",HND:"HN",HUN:"HU",ISL:"IS",IND:"IN",IDN:"ID",IRN:"IR",IRQ:"IQ",
+  IRL:"IE",ISR:"IL",ITA:"IT",JAM:"JM",JPN:"JP",JOR:"JO",KAZ:"KZ",KEN:"KE",
+  KIR:"KI",PRK:"KP",KOR:"KR",KWT:"KW",KGZ:"KG",LAO:"LA",LVA:"LV",LBN:"LB",
+  LSO:"LS",LBR:"LR",LBY:"LY",LIE:"LI",LTU:"LT",LUX:"LU",MDG:"MG",MWI:"MW",
+  MYS:"MY",MDV:"MV",MLI:"ML",MLT:"MT",MHL:"MH",MRT:"MR",MUS:"MU",MEX:"MX",
+  FSM:"FM",MDA:"MD",MCO:"MC",MNG:"MN",MNE:"ME",MAR:"MA",MOZ:"MZ",MMR:"MM",
+  NAM:"NA",NRU:"NR",NPL:"NP",NLD:"NL",NZL:"NZ",NIC:"NI",NER:"NE",NGA:"NG",
+  MKD:"MK",NOR:"NO",OMN:"OM",PAK:"PK",PLW:"PW",PAN:"PA",PNG:"PG",PRY:"PY",
+  PER:"PE",PHL:"PH",POL:"PL",PRT:"PT",QAT:"QA",ROU:"RO",RUS:"RU",RWA:"RW",
+  KNA:"KN",LCA:"LC",VCT:"VC",WSM:"WS",SMR:"SM",STP:"ST",SAU:"SA",SEN:"SN",
+  SRB:"RS",SYC:"SC",SLE:"SL",SGP:"SG",SVK:"SK",SVN:"SI",SLB:"SB",SOM:"SO",
+  ZAF:"ZA",SSD:"SS",ESP:"ES",LKA:"LK",SDN:"SD",SUR:"SR",SWE:"SE",CHE:"CH",
+  SYR:"SY",TWN:"TW",TJK:"TJ",TZA:"TZ",THA:"TH",TLS:"TL",TGO:"TG",TON:"TO",
+  TTO:"TT",TUN:"TN",TUR:"TR",TKM:"TM",TUV:"TV",UGA:"UG",UKR:"UA",ARE:"AE",
+  GBR:"GB",USA:"US",URY:"UY",UZB:"UZ",VUT:"VU",VEN:"VE",VNM:"VN",YEM:"YE",
+  ZMB:"ZM",ZWE:"ZW",HKG:"HK",MAC:"MO",PSE:"PS",XKX:"XK",
+};
+
+/** Normalize a country code to ISO alpha-2 (handles 3-letter codes). */
+function toAlpha2(code: string): string {
+  if (!code) return code;
+  const upper = code.trim().toUpperCase();
+  if (upper.length === 2) return upper;
+  if (upper.length === 3) return ISO3_TO_ISO2[upper] ?? upper;
+  return upper;
+}
+
+/** Extract a reliable 2-letter ISO code from a GeoJSON feature.
+ *  Prefers ISO_A2_EH which is correct for all countries (including Taiwan, France, Norway)
+ *  over ISO_A2 which has "-99" or "CN-TW" for some features. */
+function getFeatureCode(f: GeoFeature): string {
+  const eh = (f.properties.ISO_A2_EH as string) ?? "";
+  if (eh && eh !== "-99") return eh;
+  const a2 = (f.properties.ISO_A2 as string) ?? "";
+  if (a2 && a2 !== "-99" && a2.length === 2) return a2;
+  return "";
+}
+
+/** Compute country centroids from GeoJSON features.
+ *  For MultiPolygon, coordinates are weighted by ring length to bias toward
+ *  the largest landmass (e.g. continental US rather than Alaska). */
+function computeCentroids(geo: GeoJSON): Record<string, { lat: number; lng: number }> {
+  const result: Record<string, { lat: number; lng: number }> = {};
+  for (const feature of geo.features) {
+    const code = getFeatureCode(feature);
+    if (!code) continue;
+    const geom = feature.geometry as { type: string; coordinates: number[][][][] | number[][][] };
+    let rings: number[][][] = [];
+    if (geom.type === "Polygon") {
+      rings = [geom.coordinates[0] as unknown as number[][]];
+    } else if (geom.type === "MultiPolygon") {
+      rings = (geom.coordinates as number[][][][]).map((poly) => poly[0]);
+    }
+    if (!rings.length) continue;
+
+    let totalWeight = 0;
+    let weightedLat = 0;
+    let weightedLng = 0;
+    for (const ring of rings) {
+      const weight = ring.length; // bias toward larger landmasses
+      let sumLat = 0;
+      let sumLng = 0;
+      for (const [lng, lat] of ring) {
+        sumLat += lat;
+        sumLng += lng;
+      }
+      weightedLat += (sumLat / ring.length) * weight;
+      weightedLng += (sumLng / ring.length) * weight;
+      totalWeight += weight;
+    }
+    if (totalWeight > 0) {
+      result[code] = { lat: weightedLat / totalWeight, lng: weightedLng / totalWeight };
+    }
+  }
+  return result;
+}
+
 function hasWebGL(): boolean {
   try {
     const canvas = document.createElement("canvas");
@@ -271,12 +361,13 @@ export default function GlobeVisualization({
     const map = new Map<string, CountryAggregation>();
     if (!nodes.length) return map;
 
-    // Aggregate filtered nodes by country
+    // Aggregate filtered nodes by country (normalize 3-letter codes as fallback)
     const byCountry = new Map<string, GraphNode[]>();
     for (const n of nodes) {
-      if (!n.country_code) continue;
-      if (!byCountry.has(n.country_code)) byCountry.set(n.country_code, []);
-      byCountry.get(n.country_code)!.push(n);
+      const code = toAlpha2(n.country_code);
+      if (!code) continue;
+      if (!byCountry.has(code)) byCountry.set(code, []);
+      byCountry.get(code)!.push(n);
     }
 
     // Look up country names from API data if available
@@ -312,6 +403,13 @@ export default function GlobeVisualization({
       });
   }, []);
 
+  // Derive centroids from GeoJSON, with COUNTRY_COORDINATES as manual overrides
+  const coordMap = useMemo(() => {
+    const centroids = geoData ? computeCentroids(geoData) : {};
+    // COUNTRY_COORDINATES overrides take priority for manual tweaks
+    return { ...centroids, ...COUNTRY_COORDINATES };
+  }, [geoData]);
+
   // Auto-rotate control
   useEffect(() => {
     const globe = globeRef.current as { controls: () => { autoRotate: boolean; autoRotateSpeed: number } } | null;
@@ -326,18 +424,18 @@ export default function GlobeVisualization({
   const supplierPoints: SupplierPoint[] = useMemo(() => {
     if (!nodes.length) return [];
 
-    // Group nodes by country to compute jitter
+    // Group nodes by country to compute jitter (normalize 3-letter codes as fallback)
     const byCountry = new Map<string, GraphNode[]>();
     for (const n of nodes) {
-      const code = n.country_code;
-      if (!code || !COUNTRY_COORDINATES[code]) continue;
+      const code = toAlpha2(n.country_code);
+      if (!code || !coordMap[code]) continue;
       if (!byCountry.has(code)) byCountry.set(code, []);
       byCountry.get(code)!.push(n);
     }
 
     const points: SupplierPoint[] = [];
     for (const [code, countryNodes] of byCountry) {
-      const base = COUNTRY_COORDINATES[code];
+      const base = coordMap[code];
       countryNodes.forEach((n, i) => {
         points.push({
           id: n.id,
@@ -353,7 +451,7 @@ export default function GlobeVisualization({
       });
     }
     return points;
-  }, [nodes]);
+  }, [nodes, coordMap]);
 
   // Build lookup for point positions
   const pointPositions = useMemo(() => {
@@ -389,7 +487,7 @@ export default function GlobeVisualization({
   const getPolygonColor = useCallback(
     (feat: object) => {
       const f = feat as GeoFeature;
-      const code = (f.properties.ISO_A2 as string) ?? "";
+      const code = getFeatureCode(f);
       const agg = countryMap.get(code);
       if (!agg) return "rgba(255,255,255,0.08)";
       return getRiskColor(agg.risk_category) + "bb";
@@ -400,7 +498,7 @@ export default function GlobeVisualization({
   const getPolygonSideColor = useCallback(
     (feat: object) => {
       const f = feat as GeoFeature;
-      const code = (f.properties.ISO_A2 as string) ?? "";
+      const code = getFeatureCode(f);
       const agg = countryMap.get(code);
       if (!agg) return "rgba(255,255,255,0.03)";
       return getRiskColor(agg.risk_category) + "44";
@@ -411,7 +509,7 @@ export default function GlobeVisualization({
   const getPolygonAltitude = useCallback(
     (feat: object) => {
       const f = feat as GeoFeature;
-      const code = (f.properties.ISO_A2 as string) ?? "";
+      const code = getFeatureCode(f);
       return countryMap.has(code) ? 0.02 : 0.001;
     },
     [countryMap]
@@ -420,7 +518,7 @@ export default function GlobeVisualization({
   const getPolygonLabel = useCallback(
     (feat: object) => {
       const f = feat as GeoFeature;
-      const code = (f.properties.ISO_A2 as string) ?? "";
+      const code = getFeatureCode(f);
       const name = (f.properties.NAME as string) ?? code;
       const agg = countryMap.get(code);
       if (!agg)
@@ -439,7 +537,7 @@ export default function GlobeVisualization({
   const handlePolygonClick = useCallback(
     (feat: object) => {
       const f = feat as GeoFeature;
-      const code = (f.properties.ISO_A2 as string) ?? "";
+      const code = getFeatureCode(f);
       setSelectedCountry((prev) => (prev === code ? null : code));
     },
     []
@@ -453,7 +551,7 @@ export default function GlobeVisualization({
     // Fallback: look in geoData features
     if (geoData) {
       const feat = geoData.features.find(
-        (f) => (f.properties.ISO_A2 as string) === selectedCountry
+        (f) => getFeatureCode(f) === selectedCountry
       );
       if (feat) return (feat.properties.NAME as string) ?? selectedCountry;
     }
